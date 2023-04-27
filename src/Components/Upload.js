@@ -15,7 +15,7 @@ const Upload = () => {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8080/uploads",
+        url: "http://localhost:8080/files/uploads",
         data: formData,
         
         headers: { "Content-Type": "multipart/form-data" },
@@ -42,12 +42,19 @@ const Upload = () => {
     <div style={{marginTop:50, marginBottom:250}}>
     <div className='container'>
         <div className='row'>
-            <div className='card col-md-6 offset-md-3 offset-md-3'>
-                <h3 className='text-center'>Upload Efact File</h3>
-                <div className='card-body'>
+            <div className='border col-md-6 offset-md-3 offset-md-3'>
+                
+                <div className='card-body text-center'>
+                <br></br>
+                <h3 className='card-text'>Upload Efact File</h3>
                 <input type="file" onChange={handleFileSelect} />
-      <button onClick={handleSubmit}>Upload</button>
-      <Modal isOpen={modalIsOpen} ariaHideApp={false} style={{ content: { width: '20%', height: '17%', top: '25%', left: '40%'} }}>
+                <br></br>
+                <br></br>
+      <button class="btn border-0 btn-primary" onClick={handleSubmit} style={{ content: { width: '20%', height: '17%', top: '25%', left: '40%'} }}>Upload</button>
+
+      <br></br>
+      <br></br>
+      <Modal isOpen={modalIsOpen} ariaHideApp={false} style={{ content: { width: '20%', height: '17%', top: '25%', left: '25%'} }}>
       {uploadSuccess && <p>File uploaded successfully!</p>}
         <button class="btn border-0 btn-primary" onClick={closeModal}>Close</button>
       </Modal>
@@ -61,4 +68,3 @@ const Upload = () => {
 };
 
 export default Upload;
-<a class="nav-link btn border-0 btn-primary" href="">Contact</a>

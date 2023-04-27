@@ -3,8 +3,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useState,useEffect } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
+import { Link } from 'react-router-dom';
 
 export default function ListFiles() {
     const [Filess,setFiles]=  useState(null);
@@ -17,6 +19,20 @@ export default function ListFiles() {
           
 
 
+        });
+        
+        
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+      Show()
+    };
+    const segregateFile=async(id)=>{
+      try {
+        await axios.get(`http://localhost:8080/files/file-seg/${id}`).then(response =>{
+          
         });
         
         
@@ -66,7 +82,7 @@ export default function ListFiles() {
         {
           field: 'state',
           headerName: 'state',
-          width: 150,
+          width: 100,
           
         },
         {
@@ -78,11 +94,15 @@ export default function ListFiles() {
         {
           field: 'actions',
           headerName: 'Actions',
-          width: 70,
+          width: 300,
           renderCell:(params)=>{
             return(
               <div>
                 <a onClick={(e)=>{deleteFile(params.id,e)}}> <DeleteIcon style={{Color:'#444'}}/> </a>
+                <span style={{paddingLeft:'3em'}}></span>
+                <a onClick={(e)=>{segregateFile(params.id,e)}}> <ContentCutIcon style={{Color:'#444'}}/> </a>
+                <span style={{paddingLeft:'3em'}}></span>
+                <Link to={'/ShowFile/'+`${params.row.id}`} > <SlideshowIcon /> </Link>
               </div>
             )
           }
@@ -109,8 +129,8 @@ export default function ListFiles() {
  
 
 
-<div style={{marginTop:20}}>
-    <Box sx={{ height: 400, width: '100%'}}>
+<div style={{marginLeft:20,  marginTop:20 , marginBottom: 180}}>
+    <Box sx={{ height: 250, width: '90%'}}>
       <DataGrid
         rows={rows}
         columns={columns}

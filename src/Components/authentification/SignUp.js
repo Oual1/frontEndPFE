@@ -59,7 +59,7 @@ console.log(error);
                             <input type="text" name='emailId' className='form-control' onChange={(e)=>setConfirmedPassword(e.target.value)} />
                         </div >
                         <div class="text-center">
-                        <a style={{marginTop:20}} class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="/">SIGN UP</a>
+                        <a style={{marginTop:20}} class="btn border-0 btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="/">SIGN UP</a>
                         </div>
                         <div class="text-center mt-4 font-weight-light">Already have an account? <a class="font-weight-bold" style={{color:'#10c98f'}}  href="/login">Login</a></div>
                     </form>

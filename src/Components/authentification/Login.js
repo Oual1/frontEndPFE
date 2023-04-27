@@ -46,7 +46,7 @@ console.log(error);
                        
                        
                         <div class="text-center">
-                        <a style={{marginTop:20}} class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="/">SIGN IN</a>
+                        <a style={{marginTop:20}} class="btn border-0 btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="/">SIGN IN</a>
                         </div>
                         <div class="text-center mt-4 font-weight-light">Don't have an account? <a class="font-weight-bold" style={{color:'#10c98f'}} href="/signup">Create</a></div>
                           </form>

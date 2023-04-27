@@ -15,9 +15,9 @@ function NavBar() {
                 <li class="nav-item"> <a class="nav-link text-dark" href="/">Home</a> </li>
                 <li class="nav-item"> <a class="nav-link text-dark" href="/upload">Upload</a> </li>
                 <li class="nav-item"> <a class="nav-link text-dark" href="/status">Status</a></li>
-                <li class="nav-item"> <a class="nav-link text-dark" href="/signup">SignUp</a></li>
+                {/* <li class="nav-item"> <a class="nav-link text-dark" href="/signup">SignUp</a></li> */}
               
-                <li class="nav-item"> <a class="nav-link btn border-0 btn-primary" href="">Contact</a></li>
+                <li class="nav-item"> <a class="nav-link btn border-0 btn-primary" href="/signup">signup</a></li>
             </ul>
             
         </div>

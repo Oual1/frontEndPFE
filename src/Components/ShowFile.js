@@ -1,21 +1,57 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material';
+import TableScrollButton from '@mui/material/TabScrollButton';
 
-import React, { useEffect, useState } from 'react'
+const HorizontalScrollableTable = () => {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/messages') // Remplacez '/students' par l'URL de votre endpoint pour récupérer les étudiants
+      .then(response => {
+        setMessages(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+  const firstMsg= messages.slice(0,16);
+  const studentNames = firstMsg.map((msg) => `${msg.zone.numéro}-${msg.zone.description}`);
+  const messageContent = firstMsg.map((msg) => `${msg.content}`);
 
 
-export default function ShowFile() {
-    const [result, setResult] = useState('');
-    useEffect(()=>{
-        const requestOptions = {
-          method: 'GET',
-          redirect: 'follow'
-        };
-      
-        fetch("http://localhost:8089/file/download/1", requestOptions)
-          .then(response => response.text())
-          .then(result => setResult(result))
-          .catch(error => console.log('error', error));
-      }, []);
+
+
+
   return (
-    <div>  {result}</div>
-  )
-}
+    
+    <div style={{ width: '100%', overflowX: 'auto' }}>
+      <h6>ghjkl</h6>
+      <br></br>
+      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
+        <Table  stickyHeader>
+          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
+            <TableRow>
+              {studentNames?.map((name) => (
+              <TableCell style={{width: '200px'}} key={name}>{name}</TableCell>
+            ))}
+             
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {messageContent?.map((cont) => (
+              <TableCell style={{width: '200px'}} key={cont}>{cont}</TableCell>
+            ))}
+          
+              <TableRow >
+             
+              </TableRow>
+           
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
+};
+
+export default HorizontalScrollableTable;
