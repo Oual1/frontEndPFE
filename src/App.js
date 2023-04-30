@@ -18,6 +18,11 @@ import Topbar from './global/Topbar';
 import Calendar from './Components/Calendar';
 import { useState } from "react";
 
+import { Component } from 'react';
+import Horizont from './Components/Messages';
+import Messages from './Components/Messages';
+
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -27,7 +32,6 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          
           <SideBar isSidebar={isSidebar} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar}/>
@@ -36,8 +40,8 @@ function App() {
                        
                         <Route path='/status' element={<ListFiles />} />
                         <Route path='/upload' element={<Upload />} />
-                        <Route path='/calendar' element={<Calendar/>} />
-                        <Route path='/showFile:id' element={<ShowFile/>} />
+                        <Route path='/calendar' element={<Calendar />} />
+                        <Route path='/messages/:id' element={<ShowFile />} />
                        
                         
                         

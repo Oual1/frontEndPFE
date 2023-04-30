@@ -31,7 +31,16 @@ export default function ListFiles() {
     };
     const segregateFile=async(id)=>{
       try {
-        await axios.get(`http://localhost:8080/files/file-seg/${id}`).then(response =>{
+        await axios.get(`http://localhost:8080/files/file-seg/${id}`).then(resp =>{
+          
+        });
+        await axios.get(`http://localhost:8080/headers/header-seg/${id}`).then(re =>{
+          
+        });
+        await axios.get(`http://localhost:8080/details/detail-seg/${id}`).then(response =>{
+          
+      });
+        await axios.get(`http://localhost:8080/footers/footer-seg/${id}`).then(res=>{
           
         });
         
@@ -102,7 +111,7 @@ export default function ListFiles() {
                 <span style={{paddingLeft:'3em'}}></span>
                 <a onClick={(e)=>{segregateFile(params.id,e)}}> <ContentCutIcon style={{Color:'#444'}}/> </a>
                 <span style={{paddingLeft:'3em'}}></span>
-                <Link to={'/ShowFile/'+`${params.row.id}`} > <SlideshowIcon /> </Link>
+                <Link to={'/messages/'+`${params.row.id}`} > <SlideshowIcon /> </Link>
               </div>
             )
           }

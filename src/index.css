@@ -26,6 +26,7 @@ body,
 .app {
   display: flex;
   position: relative;
+  
 }
 
 ::-webkit-scrollbar {
