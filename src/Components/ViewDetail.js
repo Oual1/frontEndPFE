@@ -5,7 +5,9 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import TableScrollButton from '@mui/material/TabScrollButton';
 import { useParams } from 'react-router-dom';
 
+
 import {TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material';
+
 const ViewDetail = () => {
   
   
@@ -13,7 +15,14 @@ const ViewDetail = () => {
   const [selectedAttestation, setSelectedAttestation] = useState([]);
   
   const [selectedPrestation, setSelectedPrestation] = useState([]);
-  const [selectedAttestationIndex, setSelectedAttestationIndex] = useState([]);
+  const [selectedAttestationIndex, setSelectedAttestationIndex] = useState(null);
+  
+  const [attestationStates, setAttestationStates] = useState(attestations.map(() => false));
+  const [selectedPrestationIndex, setSelectedPrestationIndex] = useState(null);
+  
+  const [prestationStates, setPrestationStates] = useState(null);
+ 
+
   
   const { id }=useParams();
 
@@ -42,37 +51,71 @@ const ViewDetail = () => {
      }, [id]);
 
 
+    
 
-     
-    const handleAttestationClick = (id) => {
-      setSelectedAttestation(attestations.find((attestation) => attestation.id === id));
-      
-      
-    };
-    const handleAttestationClose = () => {
-      setSelectedAttestation(null);
-      
-    };
+   
+
+    
     
 
     const handlePrestationClick = (id) => {
+     
       setSelectedPrestation(selectedAttestation.prestations?.find((prestation) => prestation.id === id));
-      
+     
     };
 
     const handlePrestationClose= () => {
       setSelectedPrestation(null);
       
     };
+
+
+    const handleBackClick = (index) => {
+      const newAttestationStates = [...attestationStates];
+      newAttestationStates[index] = false;
+      setAttestationStates(newAttestationStates);
+      setSelectedAttestation(null);
+      setSelectedAttestationIndex(null);
+      
+    };
+    
+    const handleAttestationClick1 = (index) => {
+      const newAttestationStates = [...attestationStates];
+      newAttestationStates[index] = true;
+      setAttestationStates(newAttestationStates);
+      setSelectedAttestation(attestations[index]);
+      setSelectedAttestationIndex(index);
+      
+    };
+
+
+    const handleBackPresClick = (index) => {
+      const newPrestationStates = [...prestationStates];
+      newPrestationStates[index] = false;
+      setPrestationStates(newPrestationStates);
+      setSelectedPrestation(null);
+      setSelectedPrestationIndex(null);
+      
+    };
+    
+    const handlePresClick1 = (index) => {
+      const newPrestationStates = [...prestationStates];
+      newPrestationStates[index] = true;
+      setPrestationStates(newPrestationStates);
+      setSelectedPrestation(attestations[index]);
+      setSelectedPrestationIndex(index);
+      
+    };
+  
   
     
     
 
    return (
 
-    <div style={{marginLeft:'20%'}}>
+    <div style={{marginLeft:'20%', display: 'flex'}}>
       
-      
+      <div style={{ flex: 1 }}>
       <TableContainer>
         <Table  stickyHeader>
           <TableHead >
@@ -82,7 +125,15 @@ const ViewDetail = () => {
                 <TableCell style={{width: '100px'}} key={attestation}>
                 Attestaion: {index+1} </TableCell>
               <TableCell style={{width: '50px'}} key={attestation}>
-                <ArrowForwardIosIcon onClick={() => handleAttestationClick(attestation.id)}></ArrowForwardIosIcon>
+              {attestationStates[index] ? (
+                <ArrowBackIosIcon
+                  onClick={() => handleBackClick(index)}
+                ></ArrowBackIosIcon>
+              ) : (
+                <ArrowForwardIosIcon
+                  onClick={() => handleAttestationClick1(index)}
+                ></ArrowForwardIosIcon>
+              )}
               </TableCell>
               </div>
               
@@ -94,12 +145,17 @@ const ViewDetail = () => {
           
         </Table>
       </TableContainer>
+      
+      </div>
     {selectedAttestation && selectedAttestation.recordContents?.length >0 && (
         
-        <div style={{ width: '78%', overflowX: 'auto',marginLeft:'13%'}}>
+        <div style={{width: '78%', overflowX: 'auto', flex: 4}} >
           
-          <h5>Enregistrement: 10</h5>
-        <TableContainer component={Paper} sx={{ maxWidth: 1250}}>
+          <h2>Attestation:{selectedAttestationIndex +1}</h2>
+          <br></br>
+          <br></br>
+          <h5>Enregistrement: 20</h5>
+         <TableContainer component={Paper} sx={{ maxWidth: 1250}}>
         
         <Table  stickyHeader>
         
@@ -153,12 +209,18 @@ const ViewDetail = () => {
            ))}
           </TableRow>
           </TableHead>
+          <TableBody>
+            <TableRow>
+
+              
+            </TableRow>
+          </TableBody>
         </Table>
         </TableContainer>
         {selectedPrestation && selectedPrestation.recordContents?.length>0 && (
-          <div >
+          <div>
             {selectedPrestation.recordContents.map((rec)=>(
-              <div style={{marginLeft:'10%'}}>
+              <div style={{marginLeft: '13%'}}>
               <TableContainer  component={Paper} sx={{ maxWidth: 1250}}>
         
               <Table  key={rec} stickyHeader>
@@ -191,13 +253,16 @@ const ViewDetail = () => {
               </Table>
               
             </TableContainer>
+            <br></br>
+            <br></br>
+            <ArrowBackIosIcon style={{  marginLeft:'50%'}} onClick={() => handlePrestationClose()} />
             </div>
             
     
             ))}
             <br></br>
-            <br></br>
-            <ArrowBackIosIcon style={{  marginLeft:'50%'}}onClick={() => handlePrestationClose()} />
+           
+            
             </div>
 
           
@@ -218,7 +283,7 @@ const ViewDetail = () => {
 
 
       <br></br>
-      <h5>Enregistrement:20</h5>
+      <h5>Enregistrement:80</h5>
       <TableContainer component={Paper} sx={{ maxWidth: 1250}}>
         
         <Table  stickyHeader>
@@ -252,8 +317,7 @@ const ViewDetail = () => {
         
       </TableContainer>
        <br></br>
-       <br></br>
-      <ArrowBackIosIcon style={{  marginLeft:'50%'}}onClick={() => handleAttestationClose()} />
+       
       
       </div>
       
