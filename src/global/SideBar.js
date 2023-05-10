@@ -11,6 +11,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import img from '../source/images/wala_chaaben.jpg'
 import ListIcon from '@mui/icons-material/List';
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
@@ -57,7 +58,7 @@ const SideBar=() =>{
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar collapsed={isCollapsed} style={{position:'fixed'}}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -93,7 +94,7 @@ const SideBar=() =>{
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`./source/images/wala_chaaben.jpg`}
+                  src={img}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>

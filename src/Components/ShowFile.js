@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/* import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material';
 import TableScrollButton from '@mui/material/TabScrollButton';
@@ -61,6 +61,27 @@ const ShowFile = () => {
      
       
     }, [id]);
+    
+  console.log(header.length);
+  const groups = [];
+  let i= 0;
+  let j= 0;
+  
+
+    while (i< header.length && j < records.length) {
+      
+      
+      groups.push(header.slice(i, records[j].zones.length));
+      
+      i+=records[j].zones.length;
+      j++;
+      
+
+    }
+    console.log(groups);
+  
+
+   
   
     const rec= records.slice(0,1)[0];
 
@@ -91,7 +112,7 @@ const ShowFile = () => {
 
   return (
     
-    <div style={{ width: '100%', overflowX: 'auto'}}>
+    <div style={{ width: '78%', overflowX: 'auto',marginLeft:'20%'}}>
      
       <div>
       {records.length > 0 && (
@@ -208,4 +229,73 @@ const ShowFile = () => {
   );
 };
 
-export default ShowFile;
+export default ShowFile; */
+
+
+{/* <div style={{ marginLeft: '20%', width: '80%', overflow: 'auto',  maxWidth:1165 }}>
+  <table>
+    <thead>
+      <tr>
+        {attestations?.map((attestation) => (
+          attestation.recordContents[0]?.messageList?.map((msg) => (
+            <th key={msg.id}>{msg?.zone?.numéro}-{msg?.zone?.description}</th>
+          ))
+        ))}
+        {attestations?.length > 0}
+      </tr>
+    </thead>
+    <tbody>
+      {attestations?.map((attestation) => (
+        <React.Fragment key={attestation.id}>
+          <tr>
+            {attestation.recordContents[0]?.messageList?.map((msg) => (
+              <td key={msg.id}>{msg?.content}</td>
+            ))}
+            
+            <td >
+              <ArrowForwardIosIcon onClick={() => handleAttestationClick(attestation.id)} />
+            </td>
+          </tr>
+          {selectedAttestationIds.includes(attestation.id) && (
+            
+            <tr key={`prestations-${attestation.id}`}>
+              <td colSpan={"38"}>
+                <h2>nombre de prestations: {attestation.prestations.length}</h2>
+                <table>
+                  <thead>
+                    <tr>
+                    {attestation.prestations && attestation.prestations?.map((prestation) => (
+                        prestation.recordContents?.map((recordContent) => (
+                          <tr key={recordContent.id}>
+                            {recordContent?.messageList?.map((message) => (
+                              <th style={{width:"300px"}}  key={message.id}>{message?.zone.numéro}-{message?.zone.description}</th>
+                            ))}
+                          </tr>
+                        ))
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr >
+                    {attestation.prestations && attestation.prestations?.map((prestation) => (
+                        prestation.recordContents?.map((recordContent) => (
+                          <tr key={recordContent.id}>
+                            {recordContent?.messageList?.map((message) => (
+                              <td style={{width:"290px"}} key={message.id}>{message?.content}</td>
+                            ))}
+                          </tr>
+                        ))
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+                <ArrowBackIosIcon onClick={() => handlePrestationClose(attestation.id)} />
+              </td>
+            </tr>
+            
+          )}
+        </React.Fragment>
+      ))}
+    </tbody>
+  </table>
+</div> */}

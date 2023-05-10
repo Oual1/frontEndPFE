@@ -39,7 +39,7 @@ const Upload = () => {
  
 
   return (
-    <div style={{marginTop:50, marginBottom:250}}>
+    <div style={{marginTop:50, marginBottom:250, marginLeft:'20%'}}>
     <div className='container'>
         <div className='row'>
             <div className='border col-md-6 offset-md-3 offset-md-3'>
@@ -50,7 +50,7 @@ const Upload = () => {
                 <input type="file" onChange={handleFileSelect} />
                 <br></br>
                 <br></br>
-      <button class="btn border-0 btn-primary" onClick={handleSubmit} style={{ content: { width: '20%', height: '17%', top: '25%', left: '40%'} }}>Upload</button>
+      <button class="btn border-0 "  onClick={handleSubmit} style={{ content: { width: '20%', height: '17%', top: '25%', left: '40%',backgroundColor:"#fff"} }}>Upload</button>
 
       <br></br>
       <br></br>

@@ -138,7 +138,7 @@ export default function ListFiles() {
  
 
 
-<div style={{marginLeft:20,  marginTop:20 , marginBottom: 180}}>
+<div style={{marginLeft:'20%',  marginTop:20 , marginBottom: 180}}>
     <Box sx={{ height: 250, width: '90%'}}>
       <DataGrid
         rows={rows}

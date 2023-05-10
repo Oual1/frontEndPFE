@@ -19,8 +19,10 @@ import Calendar from './Components/Calendar';
 import { useState } from "react";
 
 import { Component } from 'react';
-import Horizont from './Components/Messages';
-import Messages from './Components/Messages';
+
+
+import Student from './Components/Student';
+import ViewDetail from './Components/ViewDetail';
 
 
 function App() {
@@ -32,7 +34,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <SideBar isSidebar={isSidebar} />
+          <SideBar />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar}/>
             <Routes>
@@ -42,6 +44,8 @@ function App() {
                         <Route path='/upload' element={<Upload />} />
                         <Route path='/calendar' element={<Calendar />} />
                         <Route path='/messages/:id' element={<ShowFile />} />
+                        <Route path='/Student' element={<Student></Student>} />
+                        <Route path='/ViewDetail/:id' element={<ViewDetail></ViewDetail>} />
                        
                         
                         
