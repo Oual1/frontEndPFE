@@ -4,6 +4,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import TableScrollButton from '@mui/material/TabScrollButton';
 import { useParams } from 'react-router-dom';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 
 import {TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material';
@@ -175,7 +176,7 @@ const ViewDetail = () => {
             
             {selectedAttestation.recordContents[0]?.messageList?.map((msg) => (
               
-             <TableCell  style={{width: '500px'}} key={msg} >{msg.content}</TableCell>
+             <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
              
            ))}
            
@@ -187,6 +188,14 @@ const ViewDetail = () => {
         </Table>
         
       </TableContainer>
+      <br></br>
+            <br></br>
+            {selectedAttestation.recordContents[0]?.messageList?.map((msg) =>msg.errorCode !==null && (
+                    <div>
+                    <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
+                    <p style={{ color: 'red', width: '500px' }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    </div>
+                  ))}
 
       <br></br>
       <br></br>
@@ -241,12 +250,12 @@ const ViewDetail = () => {
                   
                   {rec.messageList?.map((msg) => (
                     
-                   <TableCell  style={{width: '500px'}} key={msg} >{msg.content}</TableCell>
+                   <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
                    
                  ))}
                  
                  </TableRow>
-                
+                 
                   
                 </TableBody>
                 
@@ -255,6 +264,15 @@ const ViewDetail = () => {
             </TableContainer>
             <br></br>
             <br></br>
+            {rec.messageList?.map((msg) =>msg.errorCode !==null && (
+                    <div>
+                    <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
+                    <p style={{ color: 'red', width: '500px' }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    </div>
+                  ))}
+             
+            
+            
             <ArrowBackIosIcon style={{  marginLeft:'50%'}} onClick={() => handlePrestationClose()} />
             </div>
             
@@ -304,7 +322,7 @@ const ViewDetail = () => {
             
             {selectedAttestation.recordContents[1]?.messageList?.map((msg) => (
               
-             <TableCell  style={{width: '500px'}} key={msg} >{msg.content}</TableCell>
+             <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
              
            ))}
            
@@ -316,6 +334,14 @@ const ViewDetail = () => {
         </Table>
         
       </TableContainer>
+      <br></br>
+            <br></br>
+            {selectedAttestation.recordContents[1]?.messageList?.map((msg) =>msg.errorCode !==null && (
+                    <div>
+                    <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
+                    <p style={{ color: 'red', width: '500px' }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    </div>
+                  ))}
        <br></br>
        
       
