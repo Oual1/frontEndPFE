@@ -3,7 +3,7 @@ import './App.css';
 
 import Footer from './Components/Footer';
 import NavBar from './Components/NavBar';
-import ShowFile from './Components/ShowFile';
+import ShowFile from './Components/ViewHeader';
 import HomeComponent from './Components/HomeComponent'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import ListFiles from './Components/Status';
@@ -21,8 +21,10 @@ import { useState } from "react";
 import { Component } from 'react';
 
 
-import Student from './Components/Student';
+
 import ViewDetail from './Components/ViewDetail';
+import ViewFooter from './Components/ViewFooter';
+import ViewHeader from './Components/ViewHeader';
 
 
 function App() {
@@ -39,14 +41,13 @@ function App() {
             <Topbar setIsSidebar={setIsSidebar}/>
             <Routes>
                         
-                       
+                        <Route path='/' element={<Upload />} />
                         <Route path='/status' element={<ListFiles />} />
                         <Route path='/upload' element={<Upload />} />
                         <Route path='/calendar' element={<Calendar />} />
-                        <Route path='/messages/:id' element={<ShowFile />} />
-                        <Route path='/Student' element={<Student></Student>} />
+                        <Route path='/ViewHeader/:id' element={<ViewHeader></ViewHeader>} />
                         <Route path='/ViewDetail/:id' element={<ViewDetail></ViewDetail>} />
-                       
+                        <Route path='/ViewFooter/:id' element={<ViewFooter></ViewFooter>} />
                         
                         
                     </Routes>

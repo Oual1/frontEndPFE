@@ -50,13 +50,13 @@ const Upload = () => {
                 <input type="file" onChange={handleFileSelect} />
                 <br></br>
                 <br></br>
-      <button class="btn border-0 "  onClick={handleSubmit} style={{ content: { width: '20%', height: '17%', top: '25%', left: '40%',backgroundColor:"#fff"} }}>Upload</button>
+      <button   onClick={handleSubmit} style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px' }}>Upload</button>
 
       <br></br>
       <br></br>
-      <Modal isOpen={modalIsOpen} ariaHideApp={false} style={{ content: { width: '20%', height: '17%', top: '25%', left: '25%'} }}>
-      {uploadSuccess && <p>File uploaded successfully!</p>}
-        <button class="btn border-0 btn-primary" onClick={closeModal}>Close</button>
+      <Modal isOpen={modalIsOpen} ariaHideApp={true} style={{ content: { width: '16%', height: '14%', top: '25%', left: '55%'} }}>
+      {uploadSuccess && <p style={{color:'black'}}>File uploaded successfully!</p>}
+        <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', marginLeft:'70%', fontSize: '15px', height:'35%'}} onClick={closeModal}>Close</button>
       </Modal>
                 </div>
             </div>

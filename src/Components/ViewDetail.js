@@ -19,6 +19,8 @@ const ViewDetail = () => {
   const [selectedAttestationIndex, setSelectedAttestationIndex] = useState(null);
   
   const [attestationStates, setAttestationStates] = useState(attestations.map(() => false));
+  const [messages10, setMessages10]= useState([]);
+  const [messages90, setMessages90]= useState([]);
   const [selectedPrestationIndex, setSelectedPrestationIndex] = useState(null);
   
   const [prestationStates, setPrestationStates] = useState(null);
@@ -26,7 +28,30 @@ const ViewDetail = () => {
 
   
   const { id }=useParams();
+    
 
+  function getRec10(){
+    axios.get(`http://localhost:8080/details/recordContent10/${id}`) // Remplacez '/students' par l'URL de votre endpoint pour récupérer les étudiants
+    .then(response => {
+      setMessages10(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+  }
+
+  function getRec90(){
+    axios.get(`http://localhost:8080/details/recordContent90/${id}`) // Remplacez '/students' par l'URL de votre endpoint pour récupérer les étudiants
+    .then(response => {
+      setMessages90(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+  }
+ 
 
   
 
@@ -48,7 +73,9 @@ const ViewDetail = () => {
     }
    
     useEffect(() => {
-    getAllAttestations()
+    getAllAttestations();
+    getRec10();
+    getRec90();
      }, [id]);
 
 
@@ -90,33 +117,47 @@ const ViewDetail = () => {
     };
 
 
-    const handleBackPresClick = (index) => {
-      const newPrestationStates = [...prestationStates];
-      newPrestationStates[index] = false;
-      setPrestationStates(newPrestationStates);
-      setSelectedPrestation(null);
-      setSelectedPrestationIndex(null);
-      
-    };
     
-    const handlePresClick1 = (index) => {
-      const newPrestationStates = [...prestationStates];
-      newPrestationStates[index] = true;
-      setPrestationStates(newPrestationStates);
-      setSelectedPrestation(attestations[index]);
-      setSelectedPrestationIndex(index);
-      
-    };
-  
   
     
     
 
    return (
-
-    <div style={{marginLeft:'20%', display: 'flex'}}>
+    
+    <div style={{marginLeft:'20%'}}>
+      <br></br>
+      <br></br>
+      <h6>Enregistrement:10 </h6>
+      <br></br>
+      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
+        <Table  stickyHeader>
+          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
+            <TableRow>
+              {messages10?.map((msg) => (
+              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+            ))}
+             
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {messages10?.map((msg) => (
+              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+            ))}
+          
+              <TableRow >
+             
+              </TableRow>
+           
+          </TableBody>
+        </Table>
+        
+      </TableContainer>
       
+
+      <div style={{display: 'flex'}}>
       <div style={{ flex: 1 }}>
+      <br></br>
+      <br></br>
       <TableContainer>
         <Table  stickyHeader>
           <TableHead >
@@ -146,6 +187,7 @@ const ViewDetail = () => {
           
         </Table>
       </TableContainer>
+      
       
       </div>
     {selectedAttestation && selectedAttestation.recordContents?.length >0 && (
@@ -339,7 +381,7 @@ const ViewDetail = () => {
             {selectedAttestation.recordContents[1]?.messageList?.map((msg) =>msg.errorCode !==null && (
                     <div>
                     <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
-                    <p style={{ color: 'red', width: '500px' }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    <p style={{ color: 'red', width: '500px',  }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
                     </div>
                   ))}
        <br></br>
@@ -350,7 +392,34 @@ const ViewDetail = () => {
         )}
         
     </div>
-    
+    <br></br>
+    <br></br>
+    <h6>Enregistrement: 90 </h6>
+      
+      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
+      
+        <Table  stickyHeader>
+          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
+            <TableRow>
+              {messages90?.map((msg) => (
+              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+            ))}
+             
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {messages90?.map((msg) => (
+              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+            ))}
+          
+              <TableRow >
+             
+              </TableRow>
+           
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
    );
 }
   
