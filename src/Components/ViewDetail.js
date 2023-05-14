@@ -8,6 +8,8 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 
 import {TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material';
+import ViewHeader from './ViewHeader';
+import ViewFooter from './ViewFooter';
 
 const ViewDetail = () => {
   
@@ -24,6 +26,9 @@ const ViewDetail = () => {
   const [selectedPrestationIndex, setSelectedPrestationIndex] = useState(null);
   
   const [prestationStates, setPrestationStates] = useState(null);
+
+  const [showPrestationsIndices, setShowPrestationsIndices] = useState([]);
+
  
 
   
@@ -98,26 +103,20 @@ const ViewDetail = () => {
     };
 
 
-    const handleBackClick = (index) => {
-      const newAttestationStates = [...attestationStates];
-      newAttestationStates[index] = false;
-      setAttestationStates(newAttestationStates);
-      setSelectedAttestation(null);
-      setSelectedAttestationIndex(null);
-      
-    };
     
-    const handleAttestationClick1 = (index) => {
-      const newAttestationStates = [...attestationStates];
-      newAttestationStates[index] = true;
-      setAttestationStates(newAttestationStates);
+    
+
+    const togglePrestations = (index) => {
       setSelectedAttestation(attestations[index]);
       setSelectedAttestationIndex(index);
-      
+      setShowPrestationsIndices((prevIndices) => {
+        if (prevIndices.includes(index)) {
+          return prevIndices.filter((i) => i !== index);
+        } else {
+          return [...prevIndices, index];
+        }
+      });
     };
-
-
-    
   
     
     
@@ -126,71 +125,27 @@ const ViewDetail = () => {
     
     <div style={{marginLeft:'20%'}}>
       <br></br>
+      
       <br></br>
-      <h6>Enregistrement:10 </h6>
-      <br></br>
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
-        <Table  stickyHeader>
-          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
-            <TableRow>
-              {messages10?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
-            ))}
-             
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {messages10?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
-            ))}
-          
-              <TableRow >
-             
-              </TableRow>
-           
-          </TableBody>
-        </Table>
-        
-      </TableContainer>
+      
+      <h6>Detail de la Facture </h6>
       
 
-      <div style={{display: 'flex'}}>
-      <div style={{ flex: 1 }}>
-      <br></br>
-      <br></br>
-      <TableContainer>
-        <Table  stickyHeader>
-          <TableHead >
-            <TableRow>
-              {attestations?.map((attestation, index) => (
-                <div>
-                <TableCell style={{width: '100px'}} key={attestation}>
-                Attestaion: {index+1} </TableCell>
-              <TableCell style={{width: '50px'}} key={attestation}>
-              {attestationStates[index] ? (
-                <ArrowBackIosIcon
-                  onClick={() => handleBackClick(index)}
-                ></ArrowBackIosIcon>
-              ) : (
-                <ArrowForwardIosIcon
-                  onClick={() => handleAttestationClick1(index)}
-                ></ArrowForwardIosIcon>
-              )}
-              </TableCell>
-              </div>
-              
-              
-            ))}
-            
-            </TableRow>
-          </TableHead>
-          
-        </Table>
-      </TableContainer>
-      
-      
-      </div>
-    {selectedAttestation && selectedAttestation.recordContents?.length >0 && (
+      <div >
+        <ul>
+          {attestations?.map((attestation, index) => (
+             <div key={attestation}>
+              <p style={{ width: '100px' }}>
+            Attestation: {index + 1}{' '}
+            {showPrestationsIndices.includes(index) ? (
+              <ArrowBackIosIcon onClick={() => togglePrestations(index)} />
+            ) : (
+              <ArrowForwardIosIcon onClick={() => togglePrestations(index)} />
+            )}
+          </p>
+          <hr style={{width:"9%"}}></hr>
+
+          {showPrestationsIndices.includes(index) && selectedAttestation?.recordContents?.length >0 && (
         
         <div style={{width: '78%', overflowX: 'auto', flex: 4}} >
           
@@ -206,7 +161,7 @@ const ViewDetail = () => {
           <TableRow >
             {selectedAttestation.recordContents[0]?.messageList?.map((msg) => (
               
-             <TableCell  style={{width: '500px'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
+             <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
              
            ))}
            
@@ -280,7 +235,7 @@ const ViewDetail = () => {
                 <TableRow >
                   {rec.messageList?.map((msg) => (
                     
-                   <TableCell  style={{width: '500px'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
+                   <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
                    
                  ))}
                  
@@ -390,35 +345,27 @@ const ViewDetail = () => {
       </div>
       
         )}
+
+
+
+             </div>
+            ))}
+            </ul>
+            
+            
+            
+      
+      
+      
+      
+    
         
     </div>
     <br></br>
     <br></br>
-    <h6>Enregistrement: 90 </h6>
+    
       
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
       
-        <Table  stickyHeader>
-          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
-            <TableRow>
-              {messages90?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
-            ))}
-             
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {messages90?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
-            ))}
-          
-              <TableRow >
-             
-              </TableRow>
-           
-          </TableBody>
-        </Table>
-      </TableContainer>
     </div>
    );
 }
@@ -439,3 +386,33 @@ export default ViewDetail;
 
 
 
+{/* <TableContainer>
+        <Table  stickyHeader>
+          <TableHead >
+            <TableRow>
+              {attestations?.map((attestation, index) => (
+                <div>
+                <TableCell style={{width: '100px'}} key={attestation}>
+                Attestaion: {index+1} </TableCell>
+              <TableCell style={{width: '50px'}} key={attestation}>
+              {attestationStates[index] ? (
+                <ArrowBackIosIcon
+                  onClick={() => handleBackClick(index)}
+                ></ArrowBackIosIcon>
+              ) : (
+                <ArrowForwardIosIcon
+                  onClick={() => handleAttestationClick1(index)}
+                ></ArrowForwardIosIcon>
+              )}
+              </TableCell>
+              </div>
+              
+              
+            ))}
+            
+            </TableRow>
+          </TableHead>
+          
+        </Table>
+      </TableContainer> */}
+      

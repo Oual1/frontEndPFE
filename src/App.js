@@ -25,6 +25,7 @@ import { Component } from 'react';
 import ViewDetail from './Components/ViewDetail';
 import ViewFooter from './Components/ViewFooter';
 import ViewHeader from './Components/ViewHeader';
+import Student from './Components/Student';
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
                         <Route path='/ViewHeader/:id' element={<ViewHeader></ViewHeader>} />
                         <Route path='/ViewDetail/:id' element={<ViewDetail></ViewDetail>} />
                         <Route path='/ViewFooter/:id' element={<ViewFooter></ViewFooter>} />
+                        <Route path='/Student' element={<Student></Student>} />
                         
                         
                     </Routes>

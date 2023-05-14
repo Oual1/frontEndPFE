@@ -7,6 +7,8 @@ const Upload = () => {
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const[res, setResponse]= useState(null);
+  
 
   const handleSubmit = async() => {
     
@@ -21,6 +23,8 @@ const Upload = () => {
         headers: { "Content-Type": "multipart/form-data" },
       }
       );
+      setResponse(response.data); 
+      
       setUploadSuccess(true);
       setModalIsOpen(true);
       
@@ -28,7 +32,7 @@ const Upload = () => {
       console.log('error uploading file: ',error)
     }
   }
-
+  
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0])
   }
@@ -36,6 +40,41 @@ const Upload = () => {
     setModalIsOpen(false);
     setUploadSuccess(false);
   };
+
+
+  const segregateFile=async(res)=>{
+    try {
+      await axios.get(`http://localhost:8080/files/file-seg/${res}`).then(resp =>{
+        
+      });
+      await axios.get(`http://localhost:8080/headers/header-seg/${res}`).then(re =>{
+        
+      });
+      await axios.get(`http://localhost:8080/details/detail-seg/${res}`).then(response =>{
+        
+    });
+      await axios.get(`http://localhost:8080/footers/footer-seg/${res}`).then(res=>{
+        
+      });
+      await axios.get(`http://localhost:8080/details/attestations/${res}`).then(res=>{
+        
+      });
+      await axios.get(`http://localhost:8080/details/errorMsg/${res}`).then(res=>{
+        
+      });
+      
+      
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+    
+    closeModal();
+   
+  };
+
+  
  
 
   return (
@@ -56,7 +95,7 @@ const Upload = () => {
       <br></br>
       <Modal isOpen={modalIsOpen} ariaHideApp={true} style={{ content: { width: '16%', height: '14%', top: '25%', left: '55%'} }}>
       {uploadSuccess && <p style={{color:'black'}}>File uploaded successfully!</p>}
-        <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', marginLeft:'70%', fontSize: '15px', height:'35%'}} onClick={closeModal}>Close</button>
+        <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', marginLeft:'70%', fontSize: '15px', height:'35%'}} onClick={()=>segregateFile(res)}>Close</button>
       </Modal>
                 </div>
             </div>
