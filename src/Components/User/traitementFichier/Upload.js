@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Modal from "react-modal";
+import ResponsiveAppBar from '../UserNav';
+import { Box } from '@mui/material';
+import SecFooter from '../../global/SecFooter';
+import backgound1 from '../../../source/images/background1.png';
+import AppBar from '@mui/material/AppBar';
+Modal.setAppElement('#root');
 
 const Upload = () => {
   // a local state to store the currently selected file.
@@ -53,21 +59,28 @@ const Upload = () => {
       await axios.get(`http://localhost:8080/details/detail-seg/${res}`).then(response =>{
         
     });
-      await axios.get(`http://localhost:8080/footers/footer-seg/${res}`).then(res=>{
-        
-      });
+      
       await axios.get(`http://localhost:8080/details/attestations/${res}`).then(res=>{
         
       });
       await axios.get(`http://localhost:8080/details/errorMsg/${res}`).then(res=>{
         
       });
+    
       
       
       
     } catch (error) {
       console.log(error);
       
+    }
+    try {
+      await axios.get(`http://localhost:8080/footers/footer-seg/${res}`).then(res=>{
+        
+    });
+      
+    } catch (error) {
+      console.log(error);
     }
     
     closeModal();
@@ -78,29 +91,56 @@ const Upload = () => {
  
 
   return (
-    <div style={{marginTop:50, marginBottom:250, marginLeft:'20%'}}>
-    <div className='container'>
-        <div className='row'>
-            <div className='border col-md-6 offset-md-3 offset-md-3'>
+    <div>
+      <ResponsiveAppBar></ResponsiveAppBar>
+      <div>
+      <Box sx={{ display: 'flex'}}>
+       
+        
+      
+      
+      <AppBar style={{backgroundImage:`url(${backgound1})`,backgroundSize: 'cover', backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat', bottom:'50px', marginTop:"80px"}}>
+           <div style={{marginTop:150, marginBottom:250, height:'200px'}}>
+           <div className='container'>
+             <div className='row'>
+               <div style={{ border: '1px solid black' }} className='col-md-6 offset-md-3 offset-md-3' >
                 
-                <div className='card-body text-center'>
+                <div className=' text-center'>
+                 <br></br>
+                 <h3 className='card-text' style={{color:'black'}}>Import Efact File</h3>
                 <br></br>
-                <h3 className='card-text'>Upload Efact File</h3>
+                <br></br>
                 <input type="file" onChange={handleFileSelect} />
                 <br></br>
                 <br></br>
-      <button   onClick={handleSubmit} style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px' }}>Upload</button>
+               <button   onClick={handleSubmit} style={{ backgroundColor:"#27E09A", border:'none', color:'balck'}}>Import</button>
 
-      <br></br>
-      <br></br>
-      <Modal isOpen={modalIsOpen} ariaHideApp={true} style={{ content: { width: '16%', height: '14%', top: '25%', left: '55%'} }}>
-      {uploadSuccess && <p style={{color:'black'}}>File uploaded successfully!</p>}
-        <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', marginLeft:'70%', fontSize: '15px', height:'35%'}} onClick={()=>segregateFile(res)}>Close</button>
-      </Modal>
+                <br></br>
+               <br></br>
+     
                 </div>
             </div>
         </div>
     </div>
+    {uploadSuccess && (
+        <div className=' text-center'>
+      <p style={{color:'black'}}>File Imported successfully!</p>
+         <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', fontSize: '15px', height:'39%'}} onClick={()=>segregateFile(res)}>Close</button>
+      </div>
+  )}
+    </div>
+      
+        
+      </AppBar>
+      
+      
+      
+    </Box>
+    
+   
+    </div>
+    <SecFooter></SecFooter>
     </div>
 
   )

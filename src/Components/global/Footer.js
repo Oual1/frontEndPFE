@@ -1,4 +1,7 @@
-//rfce
+import React from 'react';
+import Capture from '../../source/images/Capture.PNG';
+import send2 from '../../source/images/send2.PNG';
+
 
 
 function Footer() {
@@ -8,7 +11,7 @@ function Footer() {
             <div class="row">
                 <div class="col-md-4">
                     <div class="easylo-img">
-                        <img src='./source/images/Capture.png' alt=""/>
+                        <img src={Capture} alt=""/>
                     </div>
                     <div class="socials">
                     <p class="easy-para">Suivez-nous</p>
@@ -51,7 +54,7 @@ function Footer() {
                     <div class="form">
                         <form action="">
                             <input type="email" name="" id="" placeholder=" Enter Your Email"/>
-                            <button type="submit"><img class="img-submt" src="./source/images/send2.png" alt="send button"/></button>       
+                            <button type="submit"><img class="img-submt" src={send2} alt="send button"/></button>       
                         </form>
                        
                     </div>  
@@ -64,4 +67,4 @@ function Footer() {
     );
   }
 
-export default Footer
+export default Footer;

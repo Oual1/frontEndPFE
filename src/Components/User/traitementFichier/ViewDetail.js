@@ -8,8 +8,10 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 
 import {TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material';
-import ViewHeader from './ViewHeader';
 import ViewFooter from './ViewFooter';
+import ViewHeader from './ViewHeader';
+import ResponsiveAppBar from '../UserNav';
+
 
 const ViewDetail = () => {
   
@@ -19,21 +21,21 @@ const ViewDetail = () => {
   
   const [selectedPrestation, setSelectedPrestation] = useState([]);
   const [selectedAttestationIndex, setSelectedAttestationIndex] = useState(null);
-  
-  const [attestationStates, setAttestationStates] = useState(attestations.map(() => false));
-  const [messages10, setMessages10]= useState([]);
-  const [messages90, setMessages90]= useState([]);
+
   const [selectedPrestationIndex, setSelectedPrestationIndex] = useState(null);
   
-  const [prestationStates, setPrestationStates] = useState(null);
+  
+  const [messages10, setMessages10]= useState([]);
+  const [messages90, setMessages90]= useState([]);
+  
 
   const [showPrestationsIndices, setShowPrestationsIndices] = useState([]);
+  const [showRecordIndices, setShowRecordIndices] = useState([]);
 
- 
 
+  const [filo, setFilo]= useState(null);
   
-  const { id }=useParams();
-    
+const { id }=useParams();    
 
   function getRec10(){
     axios.get(`http://localhost:8080/details/recordContent10/${id}`) // Remplacez '/students' par l'URL de votre endpoint pour récupérer les étudiants
@@ -81,32 +83,11 @@ const ViewDetail = () => {
     getAllAttestations();
     getRec10();
     getRec90();
+    getFileById()
      }, [id]);
 
 
-    
-
-   
-
-    
-    
-
-    const handlePrestationClick = (id) => {
-     
-      setSelectedPrestation(selectedAttestation.prestations?.find((prestation) => prestation.id === id));
-     
-    };
-
-    const handlePrestationClose= () => {
-      setSelectedPrestation(null);
-      
-    };
-
-
-    
-    
-
-    const togglePrestations = (index) => {
+  const togglePrestations = (index) => {
       setSelectedAttestation(attestations[index]);
       setSelectedAttestationIndex(index);
       setShowPrestationsIndices((prevIndices) => {
@@ -117,43 +98,108 @@ const ViewDetail = () => {
         }
       });
     };
-  
+
+    const togglePres = (index) => {
+      setSelectedPrestation(selectedAttestation?.prestations[index]);
+      setSelectedPrestationIndex (index);
+
+
+      setShowRecordIndices((prevIndices) => {
+        if (prevIndices.includes(index)) {
+          return prevIndices.filter((i) => i !== index);
+        } else {
+          return [...prevIndices, index];
+        }
+      });
+    };
+
+
+
+    function getFileById(){
+      axios.get(`http://localhost:8080/files/${id}`)
+      .then(response => {
+        setFilo(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    }
+    
     
     
 
    return (
     
-    <div style={{marginLeft:'20%'}}>
+    <div>
+      <ResponsiveAppBar></ResponsiveAppBar>
+      <br></br>
+      <br></br><br></br><br></br>
+      <br></br>
+      <p style={{marginLeft:"30%", fontSize:"1.5em", color:"#2AC78C"}}><strong>Facture de N° de référence {filo?.id}:  {filo?.type}</strong></p>
+      <br></br>
+      
+      
+      <ViewHeader></ViewHeader>
       <br></br>
       
       <br></br>
       
-      <h6>Detail de la Facture </h6>
+      <h2 style={{color:"#2AC78C"}}>Détail de la Facture </h2>
+      <br></br>
+      <br></br>
+      <h3 style={{marginLeft:"3%"}}>Enregistrement:10 </h3>
+      <br></br>
+      <TableContainer component={Paper} sx={{ maxWidth: 1300, marginLeft:"3%"}}>
+        <Table  stickyHeader>
+          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
+            <TableRow>
+              {messages10?.map((msg) => (
+              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+            ))}
+             
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {messages10?.map((msg) => (
+              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+            ))}
+          
+              <TableRow >
+             
+              </TableRow>
+           
+          </TableBody>
+        </Table>
+        
+      </TableContainer>
+      <br></br>
+      <br></br>
       
 
-      <div >
+      <div style={{width: '150%', overflowX: 'auto'}} >
         <ul>
           {attestations?.map((attestation, index) => (
-             <div key={attestation}>
-              <p style={{ width: '100px' }}>
+             <div key={attestation} style={{marginLeft:"3%"}}>
+              <p style={{ fontSize: "1.3em" }}>
             Attestation: {index + 1}{' '}
             {showPrestationsIndices.includes(index) ? (
-              <ArrowBackIosIcon onClick={() => togglePrestations(index)} />
+              <ArrowBackIosIcon style={{ color: '#27E09A' }} onClick={() => togglePrestations(index)} />
             ) : (
-              <ArrowForwardIosIcon onClick={() => togglePrestations(index)} />
+              <ArrowForwardIosIcon style={{ color: '#27E09A' }} onClick={() => togglePrestations(index)} />
             )}
           </p>
-          <hr style={{width:"9%"}}></hr>
+          <hr style={{width:"7%", color:"#27E09A", height:"15px"}}></hr>
 
           {showPrestationsIndices.includes(index) && selectedAttestation?.recordContents?.length >0 && (
         
-        <div style={{width: '78%', overflowX: 'auto', flex: 4}} >
+        <div style={{ marginLeft:"3%", flex: 4}} >
           
-          <h2>Attestation:{selectedAttestationIndex +1}</h2>
+          
           <br></br>
           <br></br>
-          <h5>Enregistrement: 20</h5>
-         <TableContainer component={Paper} sx={{ maxWidth: 1250}}>
+          <h3>Enregistrement: 20</h3>
+         <TableContainer component={Paper} sx={{ maxWidth: 1190}}>
         
         <Table  stickyHeader>
         
@@ -190,44 +236,32 @@ const ViewDetail = () => {
             {selectedAttestation.recordContents[0]?.messageList?.map((msg) =>msg.errorCode !==null && (
                     <div>
                     <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
-                    <p style={{ color: 'red', width: '500px' }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    <p style={{ color: 'red', width: '500px', fontSize:"1.5em" }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
                     </div>
                   ))}
 
       <br></br>
       <br></br>
       <br></br>
+      <ul>
+      {selectedAttestation.prestations?.map((prestation, index) => (
+            <div key={prestation}>
+              <p style={{ fontSize: "1.3em" }}>
+            Prestation: {index + 1}{' '}
+            {showRecordIndices.includes(index) ? (
+              <ArrowBackIosIcon style={{ color: '#27E09A' }} onClick={() => togglePres(index)} />
+            ) : (
+              <ArrowForwardIosIcon style={{ color: '#27E09A' }} onClick={() => togglePres(index)} />
+            )}
+          </p>
+          <hr style={{width:"9%", color:"#27E09A", height:"15px"}}></hr>
 
-      <TableContainer>
-        
-        <Table  stickyHeader>
-        
-          <TableHead>
-          <TableRow >
-            {selectedAttestation.prestations?.map((prestation, index) => (
-            <div>
-              <TableCell style={{width: '100px'}} key={prestation}>Prestation: {index+1} </TableCell>
-            <TableCell style={{width: '50px'}} key={prestation}>
-              <ArrowForwardIosIcon onClick={() => handlePrestationClick(prestation.id)}></ArrowForwardIosIcon>
-            </TableCell>
-            </div>
-             
-           ))}
-          </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-
-              
-            </TableRow>
-          </TableBody>
-        </Table>
-        </TableContainer>
-        {selectedPrestation && selectedPrestation.recordContents?.length>0 && (
+          {showRecordIndices.includes(index) && selectedPrestation.recordContents?.length>0 && (
           <div>
             {selectedPrestation.recordContents.map((rec)=>(
-              <div style={{marginLeft: '13%'}}>
-              <TableContainer  component={Paper} sx={{ maxWidth: 1250}}>
+              <div>
+                <h3 style={{marginLeft:"3%"}}>Enregistrement: {rec.record.recordType.toString().substring(0, 2)}</h3>
+              <TableContainer  component={Paper} sx={{ maxWidth: 1110, marginLeft:"3%"}}>
         
               <Table  key={rec} stickyHeader>
               
@@ -262,15 +296,15 @@ const ViewDetail = () => {
             <br></br>
             <br></br>
             {rec.messageList?.map((msg) =>msg.errorCode !==null && (
-                    <div>
+                    <div style={{marginLeft:"3%" }}>
                     <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
-                    <p style={{ color: 'red', width: '500px' }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    <p style={{ color: 'red', width: '1000px', fontSize:"1.5em"}} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
                     </div>
                   ))}
              
             
             
-            <ArrowBackIosIcon style={{  marginLeft:'50%'}} onClick={() => handlePrestationClose()} />
+            
             </div>
             
     
@@ -283,6 +317,20 @@ const ViewDetail = () => {
           
 
         )}
+              
+            
+              
+           
+            </div>
+             
+           ))}
+
+      </ul>
+
+      
+           
+          
+        
 
       <br></br>
       <br></br>
@@ -298,8 +346,8 @@ const ViewDetail = () => {
 
 
       <br></br>
-      <h5>Enregistrement:80</h5>
-      <TableContainer component={Paper} sx={{ maxWidth: 1250}}>
+      <h3>Enregistrement:80</h3>
+      <TableContainer component={Paper} sx={{ maxWidth: 1190}}>
         
         <Table  stickyHeader>
         
@@ -336,10 +384,12 @@ const ViewDetail = () => {
             {selectedAttestation.recordContents[1]?.messageList?.map((msg) =>msg.errorCode !==null && (
                     <div>
                     <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
-                    <p style={{ color: 'red', width: '500px',  }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    <p style={{ color: 'red', width: '500px',fontSize:"1.5em"}} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
                     </div>
                   ))}
        <br></br>
+       <br></br>
+             <br></br>
        
       
       </div>
@@ -347,8 +397,9 @@ const ViewDetail = () => {
         )}
 
 
-
+            
              </div>
+             
             ))}
             </ul>
             
@@ -363,7 +414,36 @@ const ViewDetail = () => {
     </div>
     <br></br>
     <br></br>
-    
+    <h3 style={{marginLeft:"3%"}}>Enregistrement: 90 </h3>
+      
+      <TableContainer component={Paper} sx={{ maxWidth: 1300, marginLeft:"3%"}}>
+      
+        <Table  stickyHeader>
+          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
+            <TableRow>
+              {messages90?.map((msg) => (
+              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+            ))}
+             
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {messages90?.map((msg) => (
+              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+            ))}
+          
+              <TableRow >
+             
+              </TableRow>
+           
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <br></br>
+      <br></br>
+      <br></br>
+      { filo?.type.toString()!== 'REJET_PLUS5' &&
+    <ViewFooter></ViewFooter>}
       
       
     </div>
@@ -386,33 +466,5 @@ export default ViewDetail;
 
 
 
-{/* <TableContainer>
-        <Table  stickyHeader>
-          <TableHead >
-            <TableRow>
-              {attestations?.map((attestation, index) => (
-                <div>
-                <TableCell style={{width: '100px'}} key={attestation}>
-                Attestaion: {index+1} </TableCell>
-              <TableCell style={{width: '50px'}} key={attestation}>
-              {attestationStates[index] ? (
-                <ArrowBackIosIcon
-                  onClick={() => handleBackClick(index)}
-                ></ArrowBackIosIcon>
-              ) : (
-                <ArrowForwardIosIcon
-                  onClick={() => handleAttestationClick1(index)}
-                ></ArrowForwardIosIcon>
-              )}
-              </TableCell>
-              </div>
-              
-              
-            ))}
-            
-            </TableRow>
-          </TableHead>
-          
-        </Table>
-      </TableContainer> */}
-      
+
+

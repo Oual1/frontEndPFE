@@ -7,8 +7,8 @@ import ViewDetail from './ViewDetail';
 const ViewFooter = () => {
   
   
-  const [totalFact, ssetTotalFact]= useState([]);
-  const [totalMutualite, setTotalMutualite]= useState([]);
+  const [totalFact, ssetTotalFact]= useState(null);
+  const [totalMutualite, setTotalMutualite]= useState(null);
  
   const { id }=useParams();
 
@@ -37,6 +37,7 @@ const ViewFooter = () => {
     }
     
     
+    
     useEffect(() => {
      getTotalMutualite();
      getTotalFact()
@@ -56,26 +57,27 @@ const ViewFooter = () => {
 
   return (
     
-    <div style={{ width: '78%', overflowX: 'auto',marginLeft:'20%'}}>
+    <div>
      
       
 
-     <h6>Bas de Facture</h6>
+     <h2 style={{color:"#2AC78C"}}>Bas de Facture</h2>
       <br></br>
-      <h6>Enregistrement </h6>
       <br></br>
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
+      <h3 style={{marginLeft:"3%"}}>Enregistrement: {totalMutualite?.record?.recordType} </h3>
+      <br></br>
+      <TableContainer component={Paper} sx={{ maxWidth: 1300, marginLeft:"3%"}}>
         <Table  stickyHeader>
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
-              {totalMutualite?.map((msg) => (
+              {totalMutualite?.messageList?.map((msg) => (
               <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
           </TableHead>
           <TableBody>
-          {totalMutualite?.map((msg) => (
+          {totalMutualite?.messageList?.map((msg) => (
               <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
             ))}
           
@@ -87,20 +89,23 @@ const ViewFooter = () => {
         </Table>
       </TableContainer>
       <br></br>
-      <h6>Enregistrement: </h6>
+      
       <br></br>
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
+      <h3 style={{marginLeft:"3%"}}>Enregistrement:{totalFact?.record?.recordType} </h3>
+      <br></br>
+      <br></br>
+      <TableContainer component={Paper} sx={{ maxWidth: 1300, marginLeft:"3%"}}>
         <Table  stickyHeader>
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
-              {totalFact?.map((msg) => (
+              {totalFact?.messageList?.map((msg) => (
               <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
           </TableHead>
           <TableBody>
-          {totalFact?.map((msg) => (
+          {totalFact?.messageList?.map((msg) => (
               <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
             ))}
           

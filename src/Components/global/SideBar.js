@@ -4,14 +4,14 @@ import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { tokens } from '../theme';
+import { tokens } from '../../theme';
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import img from '../source/images/wala_chaaben.jpg'
+
 import ListIcon from '@mui/icons-material/List';
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
@@ -90,13 +90,13 @@ const SideBar=() =>{
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                <img
+                {/* <img
                   alt="profile-user"
                   width="100px"
                   height="100px"
                   src={img}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
+                /> */}
               </Box>
               <Box textAlign="center">
                 <Typography

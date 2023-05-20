@@ -1,52 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const Student = () => {
-  const students = [
-    { nom: 'Doe', prenom: 'John', classe: 'A', notes: [15, 18, 20] },
-    { nom: 'Smith', prenom: 'Alice', classe: 'B', notes: [12, 16, 14] },
-    // Ajoutez d'autres étudiants avec leurs données ici
+  const classList = [
+    {
+      id: 1,
+      name: 'Classe A',
+      students: [
+        { id: 1, firstName: 'Étudiant 1', lastName: 'Nom 1', age: 20, grades: [10, 15, 12] },
+        { id: 2, firstName: 'Étudiant 2', lastName: 'Nom 2', age: 22, grades: [14, 16, 18] },
+        { id: 3, firstName: 'Étudiant 3', lastName: 'Nom 3', age: 21, grades: [13, 17, 11] }
+      ]
+    },
+    // ... Ajouter d'autres classes et étudiants ici ...
   ];
 
-  const Student = ({ student }) => {
-    const [showNotes, setShowNotes] = useState(false);
+  const generatePDF = (classItem) => {
+    const doc = new jsPDF();
 
-    const toggleNotes = () => {
-      setShowNotes(!showNotes);
-    };
+    doc.setFontSize(16);
+    doc.text(`Liste des étudiants - ${classItem.name}`, 10, 10);
 
-    return (
-      <div style={{marginLeft:"20%"}}>
-        <h3>{student.nom} {student.prenom}</h3>
-        <p>Classe: {student.classe}</p>
-        <button onClick={toggleNotes}>Voir les notes</button>
-        {showNotes && (
-          <table>
-            <thead>
-              <tr>
-                <th>Note</th>
-              </tr>
-            </thead>
-            <tbody>
-              {student.notes.map((note, index) => (
-                <tr key={index}>
-                  <td>{note}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-    );
+    const tableData = classItem.students.map((student) => {
+      const { firstName, lastName, age, grades } = student;
+      return [firstName, lastName, age, grades.join(', ')];
+    });
+
+    doc.autoTable({
+      startY: 20,
+      head: [['Prénom', 'Nom', 'Âge', 'Notes']],
+      body: tableData
+    });
+
+    doc.save(`liste-etudiants-${classItem.name}.pdf`);
   };
 
   return (
-    <div style={{marginLeft:"20%"}}>
-      <h1>Liste des étudiants</h1>
-      {students.map((student, index) => (
-        <Student key={index} student={student} />
+    <div>
+      <h2>Liste des classes</h2>
+      {classList.map((classItem) => (
+        <button key={classItem.id} onClick={() => generatePDF(classItem)}>
+          {classItem.name}
+        </button>
       ))}
     </div>
   );
 };
-
 export default Student;

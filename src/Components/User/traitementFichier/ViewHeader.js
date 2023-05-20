@@ -56,20 +56,23 @@ const ViewHeader = () => {
 
   return (
     
-    <div style={{ width: '78%', overflowX: 'auto',marginLeft:'20%'}}>
-     
-      
+    <div >
+       
+       <br></br>
+       <br></br>
 
-      
+     <h2 style={{color:"#2AC78C"}}>Entête de la Facture</h2> 
       <br></br>
-      <h6>segment 200</h6>
       <br></br>
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
+      <br></br>
+      <h3 style={{marginLeft:"3%"}}>Segment: 200</h3>
+      <br></br>
+      <TableContainer component={Paper} sx={{ maxWidth: 1300, marginLeft:"3%"}}>
         <Table  stickyHeader>
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
               {seg200?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+              <TableCell style={{width: '200px', color:'black'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
@@ -87,9 +90,9 @@ const ViewHeader = () => {
         </Table>
       </TableContainer>
       <br></br>
-      <h6>segment 300</h6>
+      <h3 style={{marginLeft:"3%"}}>Segment: 300</h3>
       <br></br>
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
+      <TableContainer component={Paper} sx={{ maxWidth: 1300 , marginLeft:"3%"}}>
         <Table  stickyHeader>
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
@@ -120,59 +123,4 @@ const ViewHeader = () => {
 
 export default ViewHeader;
 
-
-
-{/* <h6>Enregistrement:10 </h6>
-      <br></br>
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
-        <Table  stickyHeader>
-          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
-            <TableRow>
-              {messages10?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
-            ))}
-             
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {messages10?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
-            ))}
-          
-              <TableRow >
-             
-              </TableRow>
-           
-          </TableBody>
-        </Table>
-        
-      </TableContainer> */}
-      
-
-
-{/* <h6>Enregistrement: 90 </h6>
-      
-      <TableContainer component={Paper} sx={{ maxWidth: 1200}}>
-      
-        <Table  stickyHeader>
-          <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
-            <TableRow>
-              {messages90?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
-            ))}
-             
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {messages90?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
-            ))}
-          
-              <TableRow >
-             
-              </TableRow>
-           
-          </TableBody>
-        </Table>
-      </TableContainer> */}
 
