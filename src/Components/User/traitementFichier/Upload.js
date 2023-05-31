@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from "react-modal";
 import ResponsiveAppBar from '../UserNav';
@@ -14,6 +14,59 @@ const Upload = () => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const[res, setResponse]= useState(null);
+
+  const [userName, setUserName] = useState(0);
+ 
+
+
+    function updateFile(idFile, idUser){
+     // Remplacez par l'ID du fichier réel
+
+    axios.put(`http://localhost:8082/files/put-UserId/${idFile}/${idUser}`)
+      .then(response => {
+        console.log('Le fichier a été mis à jour avec succès', response.data);
+        // Effectuez les actions supplémentaires nécessaires après la mise à jour du fichier
+      })
+      .catch(error => {
+        console.error('Une erreur s\'est produite lors de la mise à jour du fichier', error);
+        // Gérez les erreurs en conséquence
+      });
+  };
+
+
+  useEffect(() => {
+  const fetchUserName = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+       
+        const roleResponse = await axios.get(`http://localhost:8080/api/v1/auth/user-name`, {
+          headers: { Authorization: `${token}` }
+        });
+        
+        
+        setUserName(roleResponse.data);
+        
+        
+        
+       
+      }else {
+        // Gérer le cas où le token est manquant
+        setUserName(null)
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération du mail de l\'utilisateur:', error);
+      // Gérez l'erreur ici
+      setUserName(null);
+      
+    }
+  };
+  fetchUserName();
+}, []);
+
+
+ 
   
 
   const handleSubmit = async() => {
@@ -31,12 +84,17 @@ const Upload = () => {
       );
       setResponse(response.data); 
       
+
+      
       setUploadSuccess(true);
       setModalIsOpen(true);
+      
       
     } catch(error) {
       console.log('error uploading file: ',error)
     }
+
+    
   }
   
   const handleFileSelect = (event) => {
@@ -50,6 +108,8 @@ const Upload = () => {
 
   const segregateFile=async(res)=>{
     try {
+      
+      
       await axios.get(`http://localhost:8080/files/file-seg/${res}`).then(resp =>{
         
       });
@@ -82,7 +142,7 @@ const Upload = () => {
     } catch (error) {
       console.log(error);
     }
-    
+    updateFile(res, userName);
     closeModal();
    
   };
@@ -94,14 +154,11 @@ const Upload = () => {
     <div>
       <ResponsiveAppBar></ResponsiveAppBar>
       <div>
-      <Box sx={{ display: 'flex'}}>
+      
        
         
       
-      
-      <AppBar style={{backgroundImage:`url(${backgound1})`,backgroundSize: 'cover', backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat', bottom:'50px', marginTop:"80px"}}>
-           <div style={{marginTop:150, marginBottom:250, height:'200px'}}>
+      <div style={{marginTop:150, marginBottom:250, height:'200px'}}>
            <div className='container'>
              <div className='row'>
                <div style={{ border: '1px solid black' }} className='col-md-6 offset-md-3 offset-md-3' >
@@ -123,20 +180,29 @@ const Upload = () => {
             </div>
         </div>
     </div>
+   
     {uploadSuccess && (
-        <div className=' text-center'>
-      <p style={{color:'black'}}>File Imported successfully!</p>
-         <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', fontSize: '15px', height:'39%'}} onClick={()=>segregateFile(res)}>Close</button>
+     
+       <Modal  isOpen={modalIsOpen} style={{ content: { width: '350px', height: '130px', marginLeft:'520px', marginTop:'150px' } }}>
+   
+        <div  className="text-center">
+      <p style={{color:'black', }}>File Imported successfully!</p>
+         <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', fontSize: '15px', height:'39%', width:'20%'}} onClick={()=>segregateFile(res)}>Close</button>
       </div>
+      </Modal>
+      
+      
+     
   )}
+ 
     </div>
       
         
-      </AppBar>
+     
       
       
       
-    </Box>
+   
     
    
     </div>

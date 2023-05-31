@@ -19,14 +19,14 @@ export default function Login() {
         setError('');
     
         try {
-          const response = await axios.post(`http://localhost:8081/api/v1/auth/authenticate`, { email, password });
+          const response = await axios.post(`http://localhost:8080/api/v1/auth/authenticate`, { email, password });
           const { token } = response.data;
     
           // Stocker le token dans le stockage local (localStorage)
           localStorage.setItem('token', token);
     
           // Effectuer une requête pour récupérer le rôle de l'utilisateur
-          const roleResponse = await axios.get(`http://localhost:8081/api/v1/auth/user-role`, {
+          const roleResponse = await axios.get(`http://localhost:8080/api/v1/auth/user-role`, {
             headers: { Authorization: `${token}` }
           });
           const role = roleResponse.data;
@@ -39,7 +39,7 @@ export default function Login() {
           if (role === 'USER') {
             window.location.href = '/status';
           } else if (role === 'ADMIN') {
-            window.location.href = '/';
+            window.location.href = '/Top';
           }
         } catch (error) {
           setError('Échec de la connexion. Veuillez vérifier vos identifiants.');

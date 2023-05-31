@@ -3,25 +3,25 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useState,useEffect } from 'react';
-import AppBar from '@mui/material/AppBar';
+
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import ResponsiveAppBar from '../UserNav';
-import SecFooter from '../../global/SecFooter';
-import backgound1 from '../../../source/images/background1.png';
-import fil from '../../../source/images/files.png';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
+
+
+
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { createCanvas, loadImage } from 'canvas';
 import { Canvas } from '@react-pdf/renderer';
+import Topbar from '../global/Topbar';
 
 
 
 
 
-export default function ListFiles() {
+export default function ViewFiles() {
     const [Filess,setFiles]=  useState([]);
 
 
@@ -78,65 +78,23 @@ export default function ListFiles() {
     };
 
 
-    const fetchUserName = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        
-        if (token) {
-         
-          const roleResponse = await axios.get(`http://localhost:8080/api/v1/auth/user-name`, {
-            headers: { Authorization: `${token}` }
-          });
-          
-          
-          setUserName(roleResponse.data);
-          
-          
-         
-        }else {
-          // Gérer le cas où le token est manquant
-          setUserName(0)
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération du mail de l\'utilisateur:', error);
-        // Gérez l'erreur ici
-        setUserName(0);
-        
-      }
-
-    };
    
-    console.log(userName)
-    
-   
-
-
-    
-
-    
-    
-    
-
-    
-   
+    function FileList(){
+        axios.get("http://localhost:8080/files").then(
+            response =>{
+                const filess= response.data;
+                setFiles(filess);
+                
+                
+            })
+    }
 
    
     
     
     
     useEffect(()=>{
-       
-        fetchUserName();
-        axios.get(`http://localhost:8082/files/file-withUser/${userName}`).then(
-            response =>{
-                const filess= response.data;
-                console.log(response.data)
-                setFiles(filess);
-                
-                
-            })
-        
-       
+        FileList();
         
        
         
@@ -209,7 +167,7 @@ export default function ListFiles() {
   return (
  
 <div >
-<ResponsiveAppBar></ResponsiveAppBar>
+    <Topbar></Topbar>
 
 <div>
      
@@ -217,7 +175,7 @@ export default function ListFiles() {
         
       
      
-<div style={{marginTop:100 , marginBottom: 180}}>
+<div style={{ marginLeft:20, marginTop:100 , marginBottom: 180}}>
 
   <br></br>
   <br></br>
@@ -240,7 +198,7 @@ export default function ListFiles() {
     </Box></div>
     
     </div>
-    <SecFooter></SecFooter>
+    
     </div>
   );
 }

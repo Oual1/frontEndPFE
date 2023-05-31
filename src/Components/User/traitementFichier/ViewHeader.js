@@ -26,7 +26,7 @@ const ViewHeader = () => {
 
 
    function getSeg300(){
-      axios.get(`http://localhost:8080/headers/${id}/segment300`)
+      axios.get(`http://localhost:8082/headers/${id}/segment300`)
       .then(response => {
         setSeg300(response.data);
       })

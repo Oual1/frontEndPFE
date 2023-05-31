@@ -12,7 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Capture from '../../source/images/Capture.PNG';
-import { useNavigate } from 'react-router-dom';
+import wala from '../../source/images/wala_chaaben.jpg';
+import { Link, useNavigate } from 'react-router-dom';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import NotificationsOutlinedIcon  from '@mui/icons-material/NotificationsOutlined';
+
 
 const pages = ['Import File', 'File List', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -21,6 +25,7 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  
 
 
   const logout = async () => {
@@ -84,6 +89,15 @@ function ResponsiveAppBar() {
     }
 
   }
+ function handleCalendarClick(){
+    navigate('/calendarUser');
+
+  }
+
+ 
+
+
+
 
   return (
     <AppBar style={{width:"100%", backgroundColor:'white'}}>
@@ -94,7 +108,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+           
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -105,6 +119,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
+            
            
           </Typography>
 
@@ -142,8 +157,12 @@ function ResponsiveAppBar() {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+
+
             </Menu>
+            
           </Box>
+         
           
          
             
@@ -158,12 +177,62 @@ function ResponsiveAppBar() {
                 {page}
               </Button>
             ))}
+            
+
+              
           </Box>
+          <Box>
+         
+         <Typography
+           variant="h3"
+           noWrap
+           component="a"
+          
+           sx={{
+             mr: 4,
+             display: { xs: 'none', md: 'flex' },
+             fontFamily: 'monospace',
+             fontWeight: 700,
+             
+             color: 'Black',
+         
+           }}
+         >
+    
+          <NotificationsOutlinedIcon></NotificationsOutlinedIcon>
+          </Typography>
+         </Box>
+        
+          <Box>
+         
+          <Typography
+            variant="h3"
+            noWrap
+            component="a"
+           
+            sx={{
+              mr: 4,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              
+              color: 'Black',
+          
+            }}
+          >
+            
+           <CalendarMonthIcon onClick={handleCalendarClick}></CalendarMonthIcon>
+          
+           </Typography>
+          </Box>
+         
+          
 
           <Box sx={{ flexGrow: 0 }}>
+            
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={wala} />
               </IconButton>
             </Tooltip>
             <Menu
