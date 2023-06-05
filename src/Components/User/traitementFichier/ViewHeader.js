@@ -26,7 +26,7 @@ const ViewHeader = () => {
 
 
    function getSeg300(){
-      axios.get(`http://localhost:8082/headers/${id}/segment300`)
+      axios.get(`http://localhost:8080/headers/${id}/segment300`)
       .then(response => {
         setSeg300(response.data);
       })
@@ -72,14 +72,14 @@ const ViewHeader = () => {
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
               {seg200?.map((msg) => (
-              <TableCell style={{width: '200px', color:'black'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+              <TableCell style={{width: "108px", color:'black'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
           </TableHead>
           <TableBody>
           {seg200?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+              <TableCell style={{width: "108px"}} key={msg}>{msg.content}</TableCell>
             ))}
           
               <TableRow >
@@ -97,14 +97,14 @@ const ViewHeader = () => {
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
               {seg300?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+              <TableCell style={{width: `${1300 / seg300.length}%`}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
           </TableHead>
           <TableBody>
           {seg300?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+              <TableCell style={{width: `${1300 / seg300.length}%`}} >{msg.content}</TableCell>
             ))}
           
               <TableRow >

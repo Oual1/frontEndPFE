@@ -1,34 +1,16 @@
-import axios from 'axios' ;
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridColDef} from '@mui/x-data-grid';
-import { useState,useEffect } from 'react';
 
 
 
 
+import { useEffect, useState } from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { tokens } from "../../theme";
 import { useTheme } from "@mui/material";
+import axios from "axios";
+import Topbar from "../global/Topbar";
 
-
-
-
-
-
-
-import Topbar from '../global/Topbar';
-
-
-
-
-
-export default function ViewFiles() {
-    const [Filess,setFiles]=  useState([]);
-
-
-    
-    const theme = useTheme();
+const PieChart = () => {
+  const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState([]);
   const [stat, setStat] = useState([]);
@@ -85,116 +67,17 @@ export default function ViewFiles() {
     }
   };
 
-    
-   
 
-    
-
-
-   
-    function FileList(){
-        axios.get("http://localhost:8080/files").then(
-            response =>{
-                const filess= response.data;
-                setFiles(filess);
-               
-             
-               
-            })
-            
-    }
-    
-
-   
-    
-    
-    
-    useEffect(()=>{
-        FileList();
-        
-       
-        
-        
-    },[]
-    )
-    const columns: GridColDef[] = [
-        { field: 'id', headerName: 'File Ref', width: 80 },
-        {
-          field: 'fileName',
-          headerName: 'File Name',
-          width: 280,
-          
-         
-        },
-        {
-          field: 'type',
-          headerName: 'Type',
-          width: 180,
-          
-        },
-        {
-          field: 'userId',
-          headerName: 'user Id',
-          width: 100,
-          
-         
-        },
-       
-
-       ];
-      
-      
-      const rows =Filess ? Filess?.map((e)=>{
-        
-        return{
-     id: e.id,
-    fileName: e.fileName,
-    state: e.state,
-    type:e.type,
-    userId: e.userId
-        }}):[];
-       
-    
-        
-       
-      
-      
-  return (
- 
-<div >
-    <Topbar></Topbar>
-
-<div  style={{display: 'flex',  flexDirection: 'row', marginTop:'8%', justifyContent: 'space-between' }}>
-     
-       
-        
-      
-     
-
-
-     
-    <Box sx={{ height: 400, width: '56%', marginLeft:'18%'}}>
   
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 4,
-            },
-          },
-        }}
-        pageSizeOptions={[4]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
-    </Box>
-    
-   
-    
-    <div style={{ marginTop:'1%', height: "350px", width:"35%",flex: '1'}}>
-    <p style={{marginLeft:'12%', color:'#29D8AD'}}>Nombre d'erreurs dans chaque fichier</p>
+  return (
+    <div>
+      <Topbar></Topbar>
+      
+     
+        
+    <div style={{ height: "400px", marginLeft:"25%", display: 'flex',  justifyContent: 'space-between' , marginTop:'10%'}} >
+    <div style={{ flexBasis: '45%' }}>
+      <p style={{marginLeft:'17%'}}>Nombre d'erreurs dans chaque fichier</p>
     <ResponsivePie
       data= {data}
       theme={{
@@ -292,15 +175,132 @@ export default function ViewFiles() {
         },
       ]}
     />
-    </div>
+ 
+ </div>
+<div style={{ flexBasis: '45%' }} >
+  <p style={{marginLeft:'25%'}}>Activité de chaque Médecin</p>
+<ResponsivePie
+      data= {stat}
+      
+      theme={{
+        axis: {
+          domain: {
+            line: {
+              stroke: colors.grey[100],
+            },
+          },
+          legend: {
+            text: {
+              fill: colors.grey[100],
+            },
+          },
+          ticks: {
+            line: {
+              stroke: colors.grey[100],
+              strokeWidth: 1,
+            },
+            text: {
+              fill: colors.grey[100],
+            },
+          },
+        },
+        legends: {
+          text: {
+            fill: colors.grey[100],
+          },
+        },
+      }}
+      
+      margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+      innerRadius={0.5}
+      padAngle={0.7}
+      cornerRadius={3}
+      activeOuterRadiusOffset={8}
+      borderColor={{
+        from: "color",
+        modifiers: [["darker", 0.2]],
+      }}
+      arcLinkLabelsSkipAngle={10}
+      arcLinkLabelsTextColor={colors.grey[100]}
+      arcLinkLabelsThickness={2}
+      arcLinkLabelsColor={{ from: "color" }}
+      enableArcLabels={false}
+      arcLabelsRadiusOffset={0.4}
+      arcLabelsSkipAngle={7}
+      arcLabelsTextColor={{
+        from: "color",
+        modifiers: [["darker", 2]],
+      }}
+      defs={[
+        {
+          id: "dots",
+          type: "patternDots",
+          background: "inherit",
+          color: "rgba(255, 255, 255, 0.3)",
+          size: 4,
+          padding: 1,
+          stagger: true,
+        },
+        {
+          id: "lines",
+          type: "patternLines",
+          background: "inherit",
+          color: "rgba(255, 255, 255, 0.3)",
+          rotation: -45,
+          lineWidth: 6,
+          spacing: 10,
+        },
+      ]}
+      legends={[
+        {
+          anchor: "bottom",
+          direction: "row",
+          justify: false,
+          translateX: 0,
+          translateY: 56,
+          itemsSpacing: 0,
+          itemWidth: 100,
+          itemHeight: 18,
+          itemTextColor: "#999",
+          itemDirection: "left-to-right",
+          itemOpacity: 1,
+          symbolSize: 18,
+          symbolShape: "circle",
+          effects: [
+            {
+              on: "hover",
+              style: {
+                itemTextColor: "#000",
+              },
+            },
+          ],
+        },
+      ]}
+      
+    />
+ 
+ </div>
     </div>
     
+    
+    
+</div>
 
-    
-    </div>
+
+
+ 
   );
-}
+};
 
-  
+export default PieChart;
+
+
+
+
+
+
+
+
+
 
 

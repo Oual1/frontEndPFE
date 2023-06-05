@@ -84,8 +84,8 @@ export default function Login() {
           onChange={''}
         />
         Remember Me
-      </label>
-      <a style={{marginLeft :160}}  href="/">Forgot Password?</a>
+        </label>
+       <a style={{marginLeft :160}}  href="/">Forgot Password?</a>
                         
       
                        

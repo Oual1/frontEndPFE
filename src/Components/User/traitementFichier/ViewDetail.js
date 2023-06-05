@@ -125,6 +125,8 @@ const { id }=useParams();
       });
 
     }
+   
+
     
     
     
@@ -155,14 +157,14 @@ const { id }=useParams();
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
               {messages10?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+              <TableCell style={{width: `${1300 /messages10?.length}%`}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
           </TableHead>
           <TableBody>
           {messages10?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+              <TableCell style={{width: `${1300 /messages10?.length}%`}} >{msg.content}</TableCell>
             ))}
           
               <TableRow >
@@ -207,7 +209,7 @@ const { id }=useParams();
           <TableRow >
             {selectedAttestation.recordContents[0]?.messageList?.map((msg) => (
               
-             <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
+             <TableCell  style={{width: `${100 /selectedAttestation.recordContents[0]?.messageList?.length}%`, color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
              
            ))}
            
@@ -219,7 +221,7 @@ const { id }=useParams();
             
             {selectedAttestation.recordContents[0]?.messageList?.map((msg) => (
               
-             <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
+             <TableCell  style={{width: `${100 /selectedAttestation.recordContents[0]?.messageList?.length}%`, color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
              
            ))}
            
@@ -235,8 +237,21 @@ const { id }=useParams();
             <br></br>
             {selectedAttestation.recordContents[0]?.messageList?.map((msg) =>msg.errorCode !==null && (
                     <div>
-                    <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
-                    <p style={{ color: 'red', width: '500px', fontSize:"1.5em" }} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    
+                    <p style={{ color: 'red', width: '500px', fontSize:"1.5em" }} key={msg} ><WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon> {msg.content} : {msg.errorCode.frenchDescription}</p>
+                    {
+                       msg.errorCode.code.substring(2,4).startsWith("0") ? (
+                        
+                        selectedAttestation.recordContents[0]?.messageList.map((m) => m.zone.numéro === msg.errorCode.code?.substring(3,4) &&(
+                            <p style={{backgroundColor:"#F67495", width:"500px"}}>  [ zone de numéro {m.zone.numéro} : {m.content} ]</p>
+                          ))
+
+                        
+                      ) : (
+                        selectedAttestation.recordContents[0]?.messageList.map((m) => m.zone.numéro === msg.errorCode.code?.substring(2,4) &&(
+                          <p style={{backgroundColor:"#F67495", width:"400px"}}> [ zone de numéro {m.zone.numéro} : {m.content} ]</p>
+                        ))
+                      )}
                     </div>
                   ))}
 
@@ -269,7 +284,7 @@ const { id }=useParams();
                 <TableRow >
                   {rec.messageList?.map((msg) => (
                     
-                   <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
+                   <TableCell  style={{width: `${100 /rec.messageList?.length}%`, color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
                    
                  ))}
                  
@@ -281,7 +296,7 @@ const { id }=useParams();
                   
                   {rec.messageList?.map((msg) => (
                     
-                   <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
+                   <TableCell  style={{width: `${100 /rec.messageList?.length}%`, color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
                    
                  ))}
                  
@@ -297,10 +312,28 @@ const { id }=useParams();
             <br></br>
             {rec.messageList?.map((msg) =>msg.errorCode !==null && (
                     <div style={{marginLeft:"3%" }}>
-                    <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
-                    <p style={{ color: 'red', width: '1000px', fontSize:"1.5em"}} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    
+                    <p style={{ color: 'red', width: '1000px', fontSize:"1.5em"}} key={msg} ><WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon> {msg.content} : {msg.errorCode.frenchDescription}</p>
+                     {
+                       msg.errorCode.code.substring(2,4).startsWith("0") ? (
+                        
+                          rec.messageList.map((m) => m.zone.numéro === msg.errorCode.code?.substring(3,4) &&(
+                            <p style={{backgroundColor:"#F67495", width:"400px"}}>  [ zone de numéro {m.zone.numéro} : {m.content} ]</p>
+                          ))
+
+                        
+                      ) : (
+                        rec.messageList.map((m) => m.zone.numéro === msg.errorCode.code?.substring(2,4) &&(
+                          <p style={{backgroundColor:"#F67495", width:"400px"}}> [ zone de numéro {m.zone.numéro} : {m.content} ]</p>
+                        ))
+                      )}
+
+                  
+
                     </div>
-                  ))}
+                  ))
+                  }
+            
              
             
             
@@ -355,7 +388,7 @@ const { id }=useParams();
           <TableRow >
             {selectedAttestation.recordContents[1]?.messageList?.map((msg) => (
               
-             <TableCell  style={{width: '500px'}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
+             <TableCell  style={{width: `${100 /selectedAttestation.recordContents[1]?.messageList?.length}%`}} key={msg} >{msg.zone.numéro}-{msg.zone.description}</TableCell>
              
            ))}
            
@@ -367,7 +400,7 @@ const { id }=useParams();
             
             {selectedAttestation.recordContents[1]?.messageList?.map((msg) => (
               
-             <TableCell  style={{width: '500px', color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
+             <TableCell  style={{width: `${100 /selectedAttestation.recordContents[1]?.messageList?.length}%`, color: msg.errorCode !== null ? 'red' : 'inherit'}} key={msg} >{msg.content}</TableCell>
              
            ))}
            
@@ -383,8 +416,22 @@ const { id }=useParams();
             <br></br>
             {selectedAttestation.recordContents[1]?.messageList?.map((msg) =>msg.errorCode !==null && (
                     <div>
-                    <WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon>
-                    <p style={{ color: 'red', width: '500px',fontSize:"1.5em"}} key={msg} >{msg.content}: {msg.errorCode.frenchDescription}</p>
+                    
+                    <p style={{ color: 'red', width: '500px',fontSize:"1.5em"}} key={msg} ><WarningAmberIcon style={{color: 'red'}}></WarningAmberIcon> {msg.content} : {msg.errorCode.frenchDescription}</p>
+                    {
+                       msg.errorCode.code.substring(2,4).startsWith("0") ? (
+                        
+                        selectedAttestation.recordContents[1]?.messageList.map((m) => m.zone.numéro === msg.errorCode.code?.substring(3,4) &&(
+                            <p style={{backgroundColor:"#F67495", width:"400px"}}>  [ zone de numéro {m.zone.numéro} : {m.content} ]</p>
+                          ))
+
+                        
+                      ) : (
+                        selectedAttestation.recordContents[1]?.messageList.map((m) => m.zone.numéro === msg.errorCode.code?.substring(2,4) &&(
+                          <p style={{backgroundColor:"#F67495", width:"400px"}}> [ zone de numéro {m.zone.numéro} : {m.content} ]</p>
+                        ))
+                      )}
+
                     </div>
                   ))}
        <br></br>

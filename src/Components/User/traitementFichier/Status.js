@@ -16,6 +16,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { createCanvas, loadImage } from 'canvas';
 import { Canvas } from '@react-pdf/renderer';
+import TauxErrors from './TauxErrors';
 
 
 
@@ -27,7 +28,26 @@ export default function ListFiles() {
 
     const [errorMap, setErrorMap]= useState([]);
     const [filo, setFilo]= useState(null);
+  
     const [userName, setUserName] = useState(null);
+    const[taux, setTaux]=useState([]);
+
+
+    function getTauxErreur(fileId){
+      
+      axios.get(`http://localhost:8080/details/taux/${fileId}`)
+      .then(response => {
+        setTaux((prevTauxErreurs) => [
+          ...prevTauxErreurs,
+          { fileId, taux: response.data },
+        ]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    }
+
     
 
     function getAllRec(id){
@@ -68,11 +88,11 @@ export default function ListFiles() {
   
       doc.autoTable({
         head: [['Type de Record', 'Zone', 'Code Erreur', 'Description']],
-        body: Object.entries(errorMap).map(([type, message]) => [type.toString().substring(0, 2), message.zone?.numéro, message.content, message.errorCode?.frenchDescription]),
+        body: Object.entries(errorMap)?.map(([type, message]) => [type.toString().substring(0, 2), message.zone?.numéro, message.content, message.errorCode?.frenchDescription]),
         margin:{top: 40},
       });
      
-      doc.save(`${filo?.fileName}.pdf`);
+      doc.save(`${filo.fileName}.pdf`);
 
   
     };
@@ -91,18 +111,18 @@ export default function ListFiles() {
           
           setUserName(roleResponse.data);
           
-          
+          console.log(roleResponse.data)
+        fileList(roleResponse.data)
          
-        }else {
-          // Gérer le cas où le token est manquant
-          setUserName(0)
         }
+        
       } catch (error) {
         console.error('Erreur lors de la récupération du mail de l\'utilisateur:', error);
         // Gérez l'erreur ici
         setUserName(0);
         
       }
+     
 
     };
    
@@ -111,6 +131,22 @@ export default function ListFiles() {
    
 
 
+    function fileList(id){
+      axios.get(`http://localhost:8082/files/file-withUser/${id}`).then(
+        response =>{
+            const filess= response.data;
+            console.log(response.data)
+            setFiles(filess);
+            filess?.forEach((file) => {
+              getTauxErreur(file.id);
+            });
+           
+            
+            
+        })
+     
+     
+    }
     
 
     
@@ -126,15 +162,10 @@ export default function ListFiles() {
     
     useEffect(()=>{
        
-        fetchUserName();
-        axios.get(`http://localhost:8082/files/file-withUser/${userName}`).then(
-            response =>{
-                const filess= response.data;
-                console.log(response.data)
-                setFiles(filess);
-                
-                
-            })
+       fetchUserName()
+       
+        
+       
         
        
         
@@ -161,9 +192,10 @@ export default function ListFiles() {
         {
           field: 'type',
           headerName: 'Type',
-          width: 250,
+          width: 200,
           
         },
+       
         {
           field: 'actions',
           headerName: 'Actions',
@@ -179,7 +211,7 @@ export default function ListFiles() {
                   <Button  variant="contained" style={{backgroundColor:"#27E09A"}}> View File</Button> 
                 </Link>
               { type &&(
-             <Button variant="contained" style={{ backgroundColor: "#0F23CE", marginLeft: "5%" }} onClick={() => generatePDF(params.row.id)}>
+             <Button variant="contained" style={{ backgroundColor: "#0F23CE", marginLeft: "5%" }} onClick={() => generatePDF(params.row?.id)}>
                 View Errors
              </Button>)}
    
@@ -222,7 +254,7 @@ export default function ListFiles() {
   <br></br>
   <br></br>
   <h3 style={{fontSize: "1.5em",  marginLeft:"40%", color:'black' }}>File List </h3>
-    <Box sx={{ height: 300, width: '102%', marginLeft:'0%'}}>
+    <Box sx={{ height: 300, width: '84%'}}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -238,6 +270,7 @@ export default function ListFiles() {
         disableRowSelectionOnClick
       />
     </Box></div>
+    
     
     </div>
     <SecFooter></SecFooter>

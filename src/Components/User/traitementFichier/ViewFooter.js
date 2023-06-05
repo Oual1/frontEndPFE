@@ -71,14 +71,14 @@ const ViewFooter = () => {
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
               {totalMutualite?.messageList?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+              <TableCell style={{width: `${100 / totalMutualite?.messageList?.length}%`}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
           </TableHead>
           <TableBody>
           {totalMutualite?.messageList?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+              <TableCell style={{width: `${100 / totalMutualite?.messageList?.length}%`}} >{msg.content}</TableCell>
             ))}
           
               <TableRow >
@@ -99,14 +99,14 @@ const ViewFooter = () => {
           <TableHead scrollButtons={true} allowScrollButtonsMobile={true} ScrollButtonComponent={TableScrollButton}>
             <TableRow>
               {totalFact?.messageList?.map((msg) => (
-              <TableCell style={{width: '200px'}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
+              <TableCell style={{width: `${100 /totalFact?.messageList?.length}%`}} key={msg}>{msg.zone.numéro}-{msg.zone.description}</TableCell>
             ))}
              
             </TableRow>
           </TableHead>
           <TableBody>
           {totalFact?.messageList?.map((msg) => (
-              <TableCell style={{width: '200px'}} >{msg.content}</TableCell>
+              <TableCell style={{width: `${100 /totalFact?.messageList?.length}%`}} >{msg.content}</TableCell>
             ))}
           
               <TableRow >

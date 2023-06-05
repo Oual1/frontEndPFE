@@ -18,7 +18,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import NotificationsOutlinedIcon  from '@mui/icons-material/NotificationsOutlined';
 
 
-const pages = ['Import File', 'File List', 'Blog'];
+const pages = ['Import File', 'File List', 'Consultations'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {

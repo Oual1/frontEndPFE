@@ -186,8 +186,8 @@ const Upload = () => {
        <Modal  isOpen={modalIsOpen} style={{ content: { width: '350px', height: '130px', marginLeft:'520px', marginTop:'150px' } }}>
    
         <div  className="text-center">
-      <p style={{color:'black', }}>File Imported successfully!</p>
-         <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', fontSize: '15px', height:'39%', width:'20%'}} onClick={()=>segregateFile(res)}>Close</button>
+      <p style={{color:'black', }}>File Imported and Splited successfully!</p>
+         <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', fontSize: '15px', height:'39%', width:'22%'}} onClick={()=>segregateFile(res)}>Close</button>
       </div>
       </Modal>
       

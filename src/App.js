@@ -27,7 +27,7 @@ import React, { useEffect, useState } from 'react';
 import ViewDetail from './Components/User/traitementFichier/ViewDetail';
 import ViewFooter from './Components/User/traitementFichier/ViewFooter';
 import ViewHeader from './Components/User/traitementFichier/ViewHeader';
-import Student from './Components/Student';
+
 import axios from 'axios';
 import Form from './Components/Admin/Form';
 import Team from './Components/Admin/Team';
@@ -35,6 +35,10 @@ import FAQ from './Components/Admin/Faq';
 import CalendarAdmin from './Components/Admin/CalendarAdmin';
 import CalendarUser from './Components/User/CalendarUser';
 import ViewFiles from './Components/Admin/ViewFiles';
+import PieChart from './Components/Admin/PieChart';
+import LineChart from './Components/Admin/LineChart';
+import ListConsultation from './Components/User/traitementConsultation/ListConsultation';
+import CreateConsultation from './Components/User/traitementConsultation/CreateConsultation';
 
 
 
@@ -87,7 +91,8 @@ function App() {
                   
                     <Route path='/faq'  element={<FAQ></FAQ> } />
                     <Route path='/Login' element={<Login/>} />
-                    
+                    <Route path='/consultations' element={<ListConsultation></ListConsultation> } />
+                    <Route path='/add-consultation' element={<CreateConsultation></CreateConsultation> } />
                    
                     
                     {userRole === 'USER' && (
@@ -99,6 +104,8 @@ function App() {
                     <Route path='/ViewHeader/:id' element={<ViewHeader></ViewHeader> } />
                     <Route path='/calendarUser' element={<CalendarUser></CalendarUser> } /> 
                     <Route path='/ViewFooter/:id' element={<ViewFooter></ViewFooter>} />
+                   
+                    
                     </>
                     )}
                     {userRole === 'ADMIN' && (
@@ -109,6 +116,10 @@ function App() {
                         <Route path='/team'  element={<Team></Team>} />
                         <Route path='/Top'  element={<Topbar></Topbar>} />
                         <Route path='/allFiles'  element={<ViewFiles></ViewFiles>} />
+                        <Route path='/pieChart'  element={<PieChart></PieChart>} />
+                        <Route path='/lineChart'  element={<LineChart></LineChart> } />
+                        
+                        
                         </>
                     )}
                      <Route path="/" element={<Navigate to="/" />} />

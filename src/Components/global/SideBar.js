@@ -14,8 +14,11 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import { BarChartOutlined } from '@mui/icons-material';
+import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import wala from '../../source/images/wala_chaaben.jpg';
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+
+import ListIcon from '@mui/icons-material/List';
 import axios from 'axios';
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
@@ -40,7 +43,7 @@ const SideBar=() =>{
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Manage Team");
  
 
   const [currentImage, setCurrentImage] = useState('../../source/images/Capture.PNG'); // Chemin de l'image actuelle
@@ -184,6 +187,13 @@ const SideBar=() =>{
               selected={selected}
               setSelected={setSelected}
             />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "5px 0 1px 5px" }}
+            >
+              Data
+            </Typography>
             <Item
               title="Manage Team"
               to="/team"
@@ -191,6 +201,20 @@ const SideBar=() =>{
               selected={selected}
               setSelected={setSelected}
             />
+             <Item
+              title="File List"
+              to="/allFiles"
+              icon={<ListIcon></ListIcon>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "5px 0 1px 5px" }}
+            >
+              Pages
+            </Typography>
             <Item
               title="Add User"
               to="/form"
@@ -200,19 +224,34 @@ const SideBar=() =>{
             />
             <Item
               title="Calendar"
-              to="/calendar"
+              to="/calendarAdmin"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-           
-             <Item
+            <Item
               title="FAQ"
               to="/faq"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+             <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "5px 0 1px 5px" }}
+            >
+              Charts
+            </Typography>
+            <Item
+              title="pie Chart"
+              to="/pieChart"
+              icon={<PieChartOutlineOutlinedIcon></PieChartOutlineOutlinedIcon>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+           
+             
            
             </Box>
 
