@@ -3,20 +3,15 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useState,useEffect } from 'react';
-import AppBar from '@mui/material/AppBar';
+
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import ResponsiveAppBar from '../UserNav';
 import SecFooter from '../../global/SecFooter';
-import backgound1 from '../../../source/images/background1.png';
-import fil from '../../../source/images/files.png';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { createCanvas, loadImage } from 'canvas';
-import { Canvas } from '@react-pdf/renderer';
-import TauxErrors from './TauxErrors';
 
 
 
@@ -31,8 +26,8 @@ export default function ListFiles() {
   
     const [userName, setUserName] = useState(null);
     const[taux, setTaux]=useState([]);
-
-
+    const m = localStorage.getItem('email');
+console.log(m)
     function getTauxErreur(fileId){
       
       axios.get(`http://localhost:8080/details/taux/${fileId}`)
@@ -82,7 +77,7 @@ export default function ListFiles() {
       doc.setFontSize(14);
 
   
-      doc.text(`Rapport d'Erreur pour : ${filo?.fileName} de N° de référence ${id}`, 10,25);
+      doc.text(`Rapport d'Erreur pour : ${filo.fileName} de N° de référence ${id}`, 10,25);
       
       
   
@@ -126,7 +121,7 @@ export default function ListFiles() {
 
     };
    
-    console.log(userName)
+   
     
    
 
@@ -162,17 +157,8 @@ export default function ListFiles() {
     
     useEffect(()=>{
        
-       fetchUserName()
-       
-        
-       
-        
-       
-        
-       
-        
-        
-    },[]
+       fetchUserName();
+      },[]
     )
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'File Reference', width: 150 },
@@ -211,7 +197,7 @@ export default function ListFiles() {
                   <Button  variant="contained" style={{backgroundColor:"#27E09A"}}> View File</Button> 
                 </Link>
               { type &&(
-             <Button variant="contained" style={{ backgroundColor: "#0F23CE", marginLeft: "5%" }} onClick={() => generatePDF(params.row?.id)}>
+             <Button variant="contained" style={{ backgroundColor: "#0F23CE", marginLeft: "5%" }} onClick={() => generatePDF(params?.row?.id)}>
                 View Errors
              </Button>)}
    

@@ -1,84 +1,15 @@
-import React from 'react';
-
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import ChatIcon from '@mui/icons-material/Chat';
-import { useNavigate } from 'react-router-dom';
-
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-
-
-
-function SecFooter() {
-  
-  const navigate = useNavigate();
-  function handleChatClick(){
-   
-    navigate('/chatRoom');
-
-  }
- 
-
- 
-
-   
-
-  
-
-  
-
-
-  return (
-    
-    <Box sx={{ display: 'flex'}}>
-      
-      <ChatIcon titleAccess='chat' style={{marginLeft:"97%"}} onClick={handleChatClick}></ChatIcon>
-        <hr style={{ borderTop: '1px solid', backgroundColor :"#2AC78C"}} />
-        <AppBar style={{backgroundColor:"#2AC78C", bottom:'0', marginTop:"713px"}}>
-      
-        
-      </AppBar>
-      
-      <AppBar style={{backgroundColor:"#A6B1B8", bottom:'0', marginTop:"720px"}}>
-      <p style={{color:'black', textAlign:'center'}}>www.Corilus.be</p>
-        
-      </AppBar>
-      
-      
-      
-    </Box>
-  );
-}
-
-
-
-export default SecFooter;
-
-
-
-
-
-
-
-
-
-
-
-
-/* import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
-import './chatR.css';
+import axios from 'axios' ;
+import './chatR.css'
 
-const ChatRoom = () => {
+const ChatRoom = ({ username }) => {
   const [privateChats, setPrivateChats] = useState({});
   const [publicChats, setPublicChats] = useState([]);
   const [tab, setTab] = useState('');
-  const storedUsername = localStorage.getItem('email');
   const [userData, setUserData] = useState({
-    username: storedUsername,
+    username: username,
     receivername: '',
     connected: false,
     message: '',
@@ -87,16 +18,24 @@ const ChatRoom = () => {
   const [socketConnected, setSocketConnected] = useState(false);
 
   useEffect(() => {
-    if (storedUsername) {
-      setUserData({ ...userData, username: storedUsername });
-      connectWebSocket();
-    }
+    connect();
+
+    return () => {
+      disconnect();
+    };
   }, []);
 
-  const connectWebSocket = () => {
+  const connect = () => {
     let Sock = new SockJS('http://localhost:8086/ws');
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
+  };
+
+  const disconnect = () => {
+    if (stompClient) {
+      stompClient.disconnect();
+      setSocketConnected(false);
+    }
   };
 
   const onConnected = () => {
@@ -270,4 +209,58 @@ const ChatRoom = () => {
   );
 };
 
-export default ChatRoom; */
+const AuthenticatedChat = () => {
+  const[storedUsername, setStoredUsername]=useState(null);
+  const[user, setUser]=useState(null);
+  const fetchUserName = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+       
+        const roleResponse = await axios.get(`http://localhost:8080/api/v1/auth/user-name`, {
+          headers: { Authorization: `${token}` }
+        });
+        console.log(roleResponse.data)
+        
+        setUser(roleResponse.data);
+       
+        axios.get(`http://localhost:8080/api/v1/auth/User/${roleResponse.data}`)
+        .then(response => {
+          setStoredUsername(response.data.firstname);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+     
+       
+      }
+      
+    } catch (error) {
+      console.error('Erreur lors de la récupération du mail de l\'utilisateur:', error);
+      // Gérez l'erreur ici
+      setUser(0);
+      
+    }
+   
+
+  };
+ 
+  useEffect(()=>{
+       fetchUserName();
+    
+   },[]
+ )
+ 
+  return (
+    <div>
+      {storedUsername ? (
+        <ChatRoom username={storedUsername} />
+      ) : (
+        <div>Veuillez vous connecter pour accéder au chat.</div>
+      )}
+    </div>
+  );
+};
+
+export default AuthenticatedChat;

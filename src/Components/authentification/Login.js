@@ -24,6 +24,8 @@ export default function Login() {
     
           // Stocker le token dans le stockage local (localStorage)
           localStorage.setItem('token', token);
+          
+        
     
           // Effectuer une requête pour récupérer le rôle de l'utilisateur
           const roleResponse = await axios.get(`http://localhost:8080/api/v1/auth/user-role`, {
@@ -31,7 +33,7 @@ export default function Login() {
           });
           const role = roleResponse.data;
           
-          
+        
 
           
     
@@ -44,6 +46,11 @@ export default function Login() {
         } catch (error) {
           setError('Échec de la connexion. Veuillez vérifier vos identifiants.');
         }
+
+
+
+        
+        
       };
     
     

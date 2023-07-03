@@ -39,6 +39,14 @@ import PieChart from './Components/Admin/PieChart';
 import LineChart from './Components/Admin/LineChart';
 import ListConsultation from './Components/User/traitementConsultation/ListConsultation';
 import CreateConsultation from './Components/User/traitementConsultation/CreateConsultation';
+import FactureComponent from './Components/User/traitementFacture/CreateInvoice';
+import InvoiceList from './Components/User/traitementFacture/InvoiceList';
+
+import ListInvoice from './Components/Admin/ListInvoice';
+
+
+
+
 
 
 
@@ -91,8 +99,9 @@ function App() {
                   
                     <Route path='/faq'  element={<FAQ></FAQ> } />
                     <Route path='/Login' element={<Login/>} />
-                    <Route path='/consultations' element={<ListConsultation></ListConsultation> } />
-                    <Route path='/add-consultation' element={<CreateConsultation></CreateConsultation> } />
+                    
+                    <Route path='/listInv' element={<ListInvoice></ListInvoice> } />
+                   
                    
                     
                     {userRole === 'USER' && (
@@ -104,7 +113,10 @@ function App() {
                     <Route path='/ViewHeader/:id' element={<ViewHeader></ViewHeader> } />
                     <Route path='/calendarUser' element={<CalendarUser></CalendarUser> } /> 
                     <Route path='/ViewFooter/:id' element={<ViewFooter></ViewFooter>} />
-                   
+                    <Route path='/add-consultation' element={<CreateConsultation></CreateConsultation> } />
+                    <Route path='/invoice/:id/:userName' element={<FactureComponent></FactureComponent>} />
+                    <Route path='/invoiceList' element={<InvoiceList></InvoiceList>} />
+                    <Route path='/consultations' element={<ListConsultation></ListConsultation> } />
                     
                     </>
                     )}

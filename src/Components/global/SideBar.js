@@ -8,16 +8,15 @@ import { tokens } from '../../theme';
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+
 import { BarChartOutlined } from '@mui/icons-material';
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import wala from '../../source/images/wala_chaaben.jpg';
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 import ListIcon from '@mui/icons-material/List';
 import axios from 'axios';
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -201,13 +200,14 @@ const SideBar=() =>{
               selected={selected}
               setSelected={setSelected}
             />
-             <Item
-              title="File List"
-              to="/allFiles"
-              icon={<ListIcon></ListIcon>}
+            <Item
+              title="Factures"
+              to="/chatRoom"
+              icon={<FactCheckIcon></FactCheckIcon> }
               selected={selected}
               setSelected={setSelected}
             />
+             
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -216,19 +216,20 @@ const SideBar=() =>{
               Pages
             </Typography>
             <Item
-              title="Add User"
+              title="Ajouter Utilisateur"
               to="/form"
               icon={<PersonAddAltIcon></PersonAddAltIcon>}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Calendar"
+              title="Calendrier"
               to="/calendarAdmin"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+             
             <Item
               title="FAQ"
               to="/faq"
