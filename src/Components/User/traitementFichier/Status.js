@@ -1,5 +1,6 @@
-import axios from 'axios' ;
+
 import * as React from 'react';
+import axios from 'axios' ;
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useState,useEffect } from 'react';
@@ -25,72 +26,30 @@ export default function ListFiles() {
     const [filo, setFilo]= useState(null);
   
     const [userName, setUserName] = useState(null);
-    const[taux, setTaux]=useState([]);
-    const m = localStorage.getItem('email');
-console.log(m)
-    function getTauxErreur(fileId){
-      
-      axios.get(`http://localhost:8080/details/taux/${fileId}`)
-      .then(response => {
-        setTaux((prevTauxErreurs) => [
-          ...prevTauxErreurs,
-          { fileId, taux: response.data },
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  
+    
+    const [errorRates, setErrorRates] = useState({});
 
+    function getTauxErreur(fileId) {
+      axios.get(`http://localhost:8080/details/taux/${fileId}`)
+        .then(response => {
+          setErrorRates(prevState => ({
+            ...prevState,
+            [fileId]: response.data,
+          }));
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
+
+  
+    
+    
 
     
 
-    function getAllRec(id){
-      axios.get(`http://localhost:8080/details/onlyErrorMsg/${id}`) // Remplacez '/students' par l'URL de votre endpoint pour récupérer les étudiants
-      .then(response => {
-        setErrorMap(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    }
-
-    function getFileById(id){
-      axios.get(`http://localhost:8080/files/${id}`)
-      .then(response => {
-        setFilo(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    }
-    const generatePDF = (id) => {
-      getFileById(id);
-      getAllRec(id);
-      const doc = new jsPDF();
-      
-     
    
-  
-  
-      doc.setFontSize(14);
-
-  
-      doc.text(`Rapport d'Erreur pour : ${filo.fileName} de N° de référence ${id}`, 10,25);
-      
-      
-  
-      doc.autoTable({
-        head: [['Type de Record', 'Zone', 'Code Erreur', 'Description']],
-        body: Object.entries(errorMap)?.map(([type, message]) => [type.toString().substring(0, 2), message.zone?.numéro, message.content, message.errorCode?.frenchDescription]),
-        margin:{top: 40},
-      });
-     
-      doc.save(`${filo.fileName}.pdf`);
-
-  
-    };
 
 
     const fetchUserName = async () => {
@@ -136,6 +95,7 @@ console.log(m)
               getTauxErreur(file.id);
             });
            
+           
             
             
         })
@@ -158,49 +118,61 @@ console.log(m)
     useEffect(()=>{
        
        fetchUserName();
+       
       },[]
     )
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'File Reference', width: 150 },
+        { field: 'id', headerName: 'Référence', width: 150 },
         {
           field: 'fileName',
-          headerName: 'File Name',
+          headerName: 'Fichier',
           width: 280,
           
          
         },
         {
           field: 'state',
-          headerName: 'State',
+          headerName: 'Etat',
           width: 120,
           
         },
         {
           field: 'type',
           headerName: 'Type',
-          width: 200,
+          width: 180,
           
+        },
+        {
+          field: 'error',
+          headerName: "Nombre d'Erreurs",
+          width: 180,
+          renderCell:(params)=>{
+            const fileId = params.row.id;
+        const errorRate = errorRates[fileId] || 0;
+            return(
+              <div>
+            
+            <p style={{color:"red", marginLeft:"600%"}}>{errorRate}</p>
+
+                 </div>
+            )
+          }
         },
        
         {
           field: 'actions',
           headerName: 'Actions',
-          width: 270,
+          width: 150,
           renderCell:(params)=>{
-           const type= params.row.type.toString() !== 'BORDEREAU_FACTURATION';
-            
+          
 
             return(
               <div>
             
                 <Link to={'/ViewDetail/'+`${params.row.id}`} > 
-                  <Button  variant="contained" style={{backgroundColor:"#27E09A"}}> View File</Button> 
+                  <Button  variant="contained" style={{backgroundColor:"#27E09A"}}> Voir</Button> 
                 </Link>
-              { type &&(
-             <Button variant="contained" style={{ backgroundColor: "#0F23CE", marginLeft: "5%" }} onClick={() => generatePDF(params?.row?.id)}>
-                View Errors
-             </Button>)}
-   
+             
 
                  </div>
             )
@@ -235,12 +207,12 @@ console.log(m)
         
       
      
-<div style={{marginTop:100 , marginBottom: 180}}>
+<div style={{marginTop:100 , marginBottom: 180, marginLeft:"10%"}}>
 
   <br></br>
   <br></br>
-  <h3 style={{fontSize: "1.5em",  marginLeft:"40%", color:'black' }}>File List </h3>
-    <Box sx={{ height: 300, width: '84%'}}>
+  <h3 style={{fontSize: "1.5em",  marginLeft:"32%", color:'black' }}>Liste des messages de rejet</h3>
+    <Box sx={{ height: 310, width: '92%'}}>
       <DataGrid
         rows={rows}
         columns={columns}

@@ -6,6 +6,9 @@ import { Box } from '@mui/material';
 import SecFooter from '../../global/SecFooter';
 import backgound1 from '../../../source/images/background1.png';
 import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { fontGrid } from '@mui/material/styles/cssUtils';
 Modal.setAppElement('#root');
 
 const Upload = () => {
@@ -161,17 +164,23 @@ const Upload = () => {
       <div style={{marginTop:150, marginBottom:250, height:'200px'}}>
            <div className='container'>
              <div className='row'>
-               <div style={{ border: '1px solid black' }} className='col-md-6 offset-md-3 offset-md-3' >
+               <div style={{ borderStyle:'inset'}} className='col-md-6 offset-md-3 offset-md-3' >
                 
                 <div className=' text-center'>
                  <br></br>
-                 <h3 className='card-text' style={{color:'black'}}>Import Efact File</h3>
+                 <h3 className='card-text' style={{color:'black', fontFamily:'sans-serif'}}>Importer un message de rejet <UploadFileIcon></UploadFileIcon> </h3>
+                 
                 <br></br>
                 <br></br>
+                
                 <input type="file" onChange={handleFileSelect} />
+              
                 <br></br>
                 <br></br>
-               <button   onClick={handleSubmit} style={{ backgroundColor:"#27E09A", border:'none', color:'balck'}}>Import</button>
+                <Button  variant="contained" style={{backgroundColor:"#27E09A"}} onClick={handleSubmit}>Importer</Button> 
+                 
+
+                 
 
                 <br></br>
                <br></br>
@@ -183,11 +192,14 @@ const Upload = () => {
    
     {uploadSuccess && (
      
-       <Modal  isOpen={modalIsOpen} style={{ content: { width: '350px', height: '130px', marginLeft:'520px', marginTop:'150px' } }}>
+       <Modal  isOpen={modalIsOpen} style={{ content: { width: '400px', height: '200px', marginLeft:'520px', marginTop:'150px', boxShadow:'10px 10px 5px #EBF1F0' } }}>
    
         <div  className="text-center">
-      <p style={{color:'black', }}>File Imported and Splited successfully!</p>
-         <button style={{ backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', fontSize: '15px', height:'39%', width:'22%'}} onClick={()=>segregateFile(res)}>Close</button>
+          <br></br>
+        <h5 style={{color:'black'}}>Message importé & segmenté avec succès!</h5>
+        <br></br>
+        <Button  variant="contained" style={{backgroundColor:"#0F23CE"}} onClick={()=>segregateFile(res)}>Fermer</Button> 
+                
       </div>
       </Modal>
       

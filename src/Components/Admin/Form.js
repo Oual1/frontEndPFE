@@ -69,7 +69,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="Nom"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstname}
@@ -82,7 +82,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Last Name"
+                label="Prénom"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.lastname}
@@ -108,7 +108,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Contact Number"
+                label="Numérp de téléphone"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.phoneNumber}
@@ -121,7 +121,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="password"
-                label="password"
+                label="mot de passe"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.password}
@@ -134,7 +134,7 @@ const Form = () => {
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit"  color="secondary" variant="contained" style={{backgroundColor:"#0F23CE"}} >
-                Create New User
+                Ajouter un médecin
               </Button>
             </Box>
           </form>

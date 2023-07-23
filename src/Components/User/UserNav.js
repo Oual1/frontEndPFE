@@ -17,7 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import NotificationsOutlinedIcon  from '@mui/icons-material/NotificationsOutlined';
 import AddCardIcon from '@mui/icons-material/AddCard';
-
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 const pages = ['Importer', 'Fichiers', 'Factures'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -208,6 +208,27 @@ function ResponsiveAppBar() {
          >
     
           <AddCardIcon titleAccess='ajouter Consultation' onClick={handleAddClick}></AddCardIcon>
+          </Typography>
+         </Box>
+         <Box>
+         
+         <Typography
+           variant="h3"
+           noWrap
+           component="a"
+          
+           sx={{
+             mr: 4,
+             display: { xs: 'none', md: 'flex' },
+             fontFamily: 'monospace',
+             fontWeight: 700,
+             
+             color: 'Black',
+         
+           }}
+         >
+    
+          <MailOutlineIcon></MailOutlineIcon>
           </Typography>
          </Box>
         

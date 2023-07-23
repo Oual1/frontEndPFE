@@ -83,7 +83,7 @@ const FactureComponent = () => {
                                         <div style={{ display: 'flex'}}>
                                         <p style={{ marginRight: '40px' }}>NIHI: {factureData.userId}
      </p>
-                                        <p style={{ marginRight: '40px' }}>Nom et Prénom: {medecin?.lastname} {medecin.firstname}
+                                        <p style={{ marginRight: '40px' }}>Nom et Prénom: {medecin?.lastname} {medecin?.firstname}
      </p>
      <p style={{ marginRight: '40px' }}>Email: {medecin.email}
      </p>
@@ -106,7 +106,7 @@ const FactureComponent = () => {
           Attestation: {index+1}
     </p>
       <div style={{ display: 'flex'}}>
-         
+      
         
   <p style={{ marginRight: '40px' }}>Date: {consult.date}
      </p>
@@ -118,9 +118,12 @@ const FactureComponent = () => {
  
         </div>
        
+       
       </div>
 
       <div className="card-body">
+      <p >NISS du Patient: {consult.patient.id}
+     </p>
         <div>
            
           <label className="col-form-label">Liste des Prestations:</label>

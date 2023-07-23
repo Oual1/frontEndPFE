@@ -12,10 +12,10 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { BarChartOutlined } from '@mui/icons-material';
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import wala from '../../source/images/wala_chaaben.jpg';
+import wala from '../../source/images/prof.png';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import ListIcon from '@mui/icons-material/List';
 import axios from 'axios';
@@ -140,7 +140,7 @@ const SideBar=() =>{
                 
               >
                 <Typography variant="h5" color='black' >
-                  ADMINIS
+                  ADMIN
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -148,6 +148,7 @@ const SideBar=() =>{
               </Box>
             )}
           </MenuItem>
+          <br></br>
 
           {!isCollapsed && (
             <Box mb="25px">
@@ -170,14 +171,17 @@ const SideBar=() =>{
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Chaaben
+                  Alex
                 </Typography>
+                
                 <Typography variant="h5" color='black' >
-                  wala
+                 Duboit
                 </Typography>
               </Box>
             </Box>
           )}
+          
+          <br></br>
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
@@ -186,20 +190,16 @@ const SideBar=() =>{
               selected={selected}
               setSelected={setSelected}
             />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "5px 0 1px 5px" }}
-            >
-              Data
-            </Typography>
+           
+            <br></br>
             <Item
-              title="Manage Team"
+              title="Liste Médecins"
               to="/team"
               icon={<PeopleOutlinedIcon></PeopleOutlinedIcon>}
               selected={selected}
               setSelected={setSelected}
             />
+            <br></br>
             <Item
               title="Factures"
               to="/chatRoom"
@@ -207,21 +207,16 @@ const SideBar=() =>{
               selected={selected}
               setSelected={setSelected}
             />
-             
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "5px 0 1px 5px" }}
-            >
-              Pages
-            </Typography>
+            
+            <br></br>
             <Item
-              title="Ajouter Utilisateur"
+              title="Ajouter Médecin"
               to="/form"
               icon={<PersonAddAltIcon></PersonAddAltIcon>}
               selected={selected}
               setSelected={setSelected}
             />
+            <br></br>
             <Item
               title="Calendrier"
               to="/calendarAdmin"
@@ -229,28 +224,30 @@ const SideBar=() =>{
               selected={selected}
               setSelected={setSelected}
             />
-             
-            <Item
-              title="FAQ"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
+            <br></br>
+             <Item
+              title="Emails"
+              to="/email"
+              icon={<MailOutlineIcon></MailOutlineIcon> }
               selected={selected}
               setSelected={setSelected}
             />
+             
+           
              <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "5px 0 1px 5px" }}
             >
-              Charts
+              
             </Typography>
-            <Item
-              title="pie Chart"
+           {/*  <Item
+              title="Dashboard"
               to="/pieChart"
               icon={<PieChartOutlineOutlinedIcon></PieChartOutlineOutlinedIcon>}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
            
              
            

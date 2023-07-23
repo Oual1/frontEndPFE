@@ -10,90 +10,66 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import React, { useState, useEffect } from 'react';
 
 
-const Team = () => {
-  const [users,setUsers]=  useState(null);
+const EmailList = () => {
+  const [emails,setEmails]=  useState(null);
 
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "id",
-     headerName: "ID",
+     headerName: "N°Email",
      width: 80, 
   },
     {
-      field: "lastname",
-      headerName: "Nom",
+      field: "recipient",
+      headerName: "Recipient",
       flex: 1,
       cellClassName: "name-column--cell",
-      width: 150,
+      width: 170,
     },
     {
-      field: "firstname",
-      headerName: "Prénom",
+      field: "attachment",
+      headerName: "Attachment",
       flex: 1,
-      width: 150,
+      width: 100,
     },
     {
-      field: "phoneNumber",
-      headerName: "N°Téléphone",
+      field: "date",
+      headerName: "Date",
       flex: 1,
-      width: 150,
+      width: 80,
     },
    
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      width: 250,
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      flex: 1,
-      width: 50,
-      renderCell: (params) => {
-        
-        return (
-          <div>
-            
-            <ModeEditOutlineIcon></ModeEditOutlineIcon>
-            
-            <DeleteForeverIcon></DeleteForeverIcon>
-                  
-                
-          </div>
-        );
-      },
-    },
+    
     
   ];
 
 
 
 
-  function UsersList(){
-    axios.get("http://localhost:8080/api/v1/auth/Users").then(
+  function emailsList(){
+    axios.get("http://localhost:8080/mailing/allEmails").then(
         response =>{
             const users= response.data;
-            setUsers(users);
-            console.log(users);
+            setEmails(users);
+            
             
             
         })
 }
 useEffect(()=>{
-  UsersList();
+  emailsList();
   },[]
 )
 
   return (
     <div>
         <Topbar></Topbar>
-    <div style={{marginLeft:"20%"}} >
-     
+    <div style={{marginLeft:"30%", width: "60%", marginTop:"5%"}} >
+    <p style={{marginLeft:'30%', fontSize: "1.5em"}}>Liste des réponses Envoyées</p>
       <Box
-        m="40px 0 0 0"
+      
         height="60vh"
         sx={{
           "& .MuiDataGrid-root": {
@@ -103,10 +79,10 @@ useEffect(()=>{
             borderBottom: "none",
           },
           "& .name-column--cell": {
-            color: colors.greenAccent[300],
+            color: "#66CDD5",
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.greenAccent[700],
+            backgroundColor: "#66CDD5",
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -114,23 +90,19 @@ useEffect(()=>{
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.greenAccent[700],
+            backgroundColor: "#66CDD5",
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
         }}
       >
-        <DataGrid checkboxSelection rows={users ?? []} columns={columns} />
+        <DataGrid checkboxSelection rows={emails ?? []} columns={columns} />
       </Box>
-      <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit"  color="secondary" variant="contained" style={{backgroundColor:"#0F23CE"}} href="/Form">
-                Ajouter nouveau médecin
-              </Button>
-            </Box>
+      
     </div>
     </div>
   );
 };
 
-export default Team;
+export default EmailList;

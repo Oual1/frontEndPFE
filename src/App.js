@@ -43,6 +43,8 @@ import FactureComponent from './Components/User/traitementFacture/CreateInvoice'
 import InvoiceList from './Components/User/traitementFacture/InvoiceList';
 
 import ListInvoice from './Components/Admin/ListInvoice';
+import Profile from './Components/authentification/Profile';
+import EmailList from './Components/Admin/EmailList';
 
 
 
@@ -117,7 +119,7 @@ function App() {
                     <Route path='/invoice/:id/:userName' element={<FactureComponent></FactureComponent>} />
                     <Route path='/invoiceList' element={<InvoiceList></InvoiceList>} />
                     <Route path='/consultations' element={<ListConsultation></ListConsultation> } />
-                    
+                    <Route path='/profile' element={<Profile></Profile> } />
                     </>
                     )}
                     {userRole === 'ADMIN' && (
@@ -130,7 +132,7 @@ function App() {
                         <Route path='/allFiles'  element={<ViewFiles></ViewFiles>} />
                         <Route path='/pieChart'  element={<PieChart></PieChart>} />
                         <Route path='/lineChart'  element={<LineChart></LineChart> } />
-                        
+                        <Route path='/email' element={<EmailList></EmailList> } />
                         
                         </>
                     )}

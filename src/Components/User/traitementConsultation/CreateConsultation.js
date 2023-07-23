@@ -10,25 +10,24 @@ import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const CreateConsultation = () => {
+  const selectedId = localStorage.getItem('selectedId');
+ console.log(selectedId)
   const [hideAj, setHideAj] = useState(true);
  const list=[];
- const showToast = (message) => {
-  toast.success(message, {
-    position: toast.POSITION.TOP_RIGHT
-  });
-};
-  const [currentDate, setCurrentDate] = useState('');
  
-  const [selectedPatient, setSelectedPatient] = useState(null);
+  
+ 
+  
   const [examList, setExamList] = useState([]);
-  const [patientList, setPatientList] = useState([]);
+  const [consultation, setConsultation] = useState(null);
   const [userName, setUserName] = useState(0);
   const [selectedExams, setSelectedExams] = useState([]);
-  const [add, setAdd] = useState({
-    date: null,
-    type: null,
-  });
-
+  const [add, setAdd] = useState({});
+  const ConsulType = {
+    Cabinet: 'Cabinet',
+    Domicile: 'Domicile',
+  };
+  
   useEffect(() => {
     const fetchUserName = async () => {
       try {
@@ -58,29 +57,10 @@ const CreateConsultation = () => {
       }
     };
     fetchUserName();
+    
   }, []);
   
-  const addConsultation = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(`http://localhost:8080/invoices/add-consultations/${userName}`, {
-        patient: selectedPatient,
-        date: currentDate,
-        motif: add.motif,
-        type: add.type,
-        examList: getSelectedPrestations(),
-        total: calculateTotal(),
-      });
-
-      console.log(response.data);
-      setAdd({ date: '', type: '', typeConsultation: '' });
-      showToast('success', 'Consultation ajoutée avec succès');
-    } catch (error) {
-      console.error(error);
-      showToast('error', 'Une erreur s\'est produite lors de l\'ajout de la consultation');
-    }
-  };
+  
   function getSelectedPrestations(){
     selectedExams.map((exam)=>{
       const prest= examList.find((item)=>item.code=== exam.value);
@@ -90,7 +70,7 @@ const CreateConsultation = () => {
     return list;
   }
  
-
+  
 
   
   function getAllPrestations(){
@@ -106,24 +86,40 @@ const CreateConsultation = () => {
 }
 
 
-function getAllPatients(){
-  axios.get("http://localhost:8080/invoices/patients").then(
+function getConsultation(){
+  axios.get(`http://localhost:8080/invoices/cons/${selectedId}`).then(
       response =>{
           
-          setPatientList(response.data)
-          console.log(response.data);
+          setConsultation(response.data)
+        
           
           
       })
 }
-const handlePatientSelect = (id) => {
-  const patient = patientList.find((p) => p.id === id);
-  console.log(patient)
-  if (patient) {
-    setSelectedPatient(patient);
-  } else {
-    setSelectedPatient(null);
+
+
+const addConsultation = async (e) => {
+  e.preventDefault();
+  const typeAsEnum= add.type === 'Cabinet' ? ConsulType.Cabinet : ConsulType.Domicile;
+  try {
+     
+    
+    const response = await axios.put(`http://localhost:8080/invoices/updateCons/${selectedId}`, {
+      type: typeAsEnum,  
+      motif: add.motif,
+      total: calculateTotal(),
+      examList: getSelectedPrestations()
+      
+    });
+
+    console.log(response.data);
+    
+   
+  } catch (error) {
+    console.error(error);
+    
   }
+ addConsultationToInv()
 };
 const calculateTotal = () => {
   let total = 0;
@@ -136,12 +132,26 @@ const calculateTotal = () => {
 
   return total;
 };
+function addConsultationToInv(){
+ 
+
+  try {
+    const response = axios.post(`http://localhost:8080/invoices/add-consultations/${selectedId}/${userName}`);
+
+    
+  
+    
+  } catch (error) {
+    console.error(error);
+    
+  }
+};
 
 
   useEffect(()=>{
-    getAllPatients();
+   
     getAllPrestations();
-    setCurrentDate(moment().format('YYYY-MM-DD'));
+    getConsultation();
     },[]
   )
   
@@ -152,11 +162,11 @@ const calculateTotal = () => {
     const sortedExams = selectedOptions.sort((a, b) => a.code - b.code);
     setSelectedExams(sortedExams);
   };
-
+  
 
   return (
 
-    <div className="card card-warning" style={{ width: '80%', margin: '3% auto',maxHeight: '700px', overflowY: 'auto'}}>
+    <div className="card card-warning" style={{ width: '80%', margin: '3% auto'}}>
       <p-toast></p-toast>
       <p-toast position="top-right" key="tl"></p-toast>
       <div className="card-header" style={{backgroundColor:'#29D8AD'}}>
@@ -165,43 +175,37 @@ const calculateTotal = () => {
 
       <div className="card-body" style={{ height:"100%", overflowY:'auto'}} >
         <form onSubmit={addConsultation} hidden={!hideAj}>
-        <div className='form-group'>
-        <p>Patient:
-        <InputBase sx={{ ml: 2, flex: 1, borderRadius: '4px', border: '1px solid #DAD7D8'}} placeholder="Enter NISS Patient"
-         type="text"
-       
-         onChange={(e) => handlePatientSelect(parseInt(e.target.value))}
-          />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
-        </p>
-        {selectedPatient ? (
-        <div style={{ display: 'flex'}}>
+        <div className="form-group"  >
+            <label className="col-form-label"  > NISS du Patient:</label>
+            <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={consultation?.patient.id} readOnly style={{width:"150px"}} />
+          </div>
+          <div style={{ display: 'flex'}}>
          
          <div className="form-group" style={{ marginRight: '30px' }}>
     <label className="col-form-label" >Nom:</label>
-    <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={selectedPatient.firstName} readOnly onChange={(e) => setAdd({ ...add, nom: e.target.value })} disabled={!hideAj} />
+    <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={consultation?.patient.firstName} readOnly disabled={!hideAj} />
   </div>
   <div className="form-group" style={{ marginRight: '30px' }}>
     <label className="col-form-label" >Prénom:</label>
-    <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={selectedPatient.lastName} readOnly onChange={(e) => setAdd({ ...add, prenom: e.target.value })} disabled={!hideAj} />
+    <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={consultation?.patient.lastName} readOnly  disabled={!hideAj} />
   </div>
-  <div className="form-group">
+  
+  <div className="form-group" style={{ marginRight: '30px' }}>
     <label className="col-form-label" >Date de Naissance:</label>
-    <input type="Date" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={selectedPatient.dateBirth} readOnly onChange={(e) => setAdd({ ...add, dateNaissance: e.target.value })} disabled={!hideAj} />
+    <input type="Date" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={consultation?.patient.dateBirth} readOnly  disabled={!hideAj} />
   </div>
-         
-        </div>
-      ) : (
-        <div></div>
-      )}
-      </div>
+  <div className="form-group" style={{ marginRight: '30px' }}>
+    <label className="col-form-label" >Mutualité:</label>
+    <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={consultation?.patient.mutualite} readOnly disabled={!hideAj} />
+  </div>
+  
+  </div>
+  
       <hr style={{ borderTop: '0.5px solid', backgroundColor :"#2AC78C"}} />
       <div style={{ display: 'flex'}}>
           <div className="form-group"  >
             <label className="col-form-label"  > Date Consultation:</label>
-            <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={currentDate} readOnly onChange={(e) => setAdd({ ...add, date: e.target.value })} />
+            <input type="text" className="form-control" id="no" placeholder="Entrer ..." required="required" name="date" value={consultation?.date} readOnly  style={{width:"200px"}} />
           </div>
           </div>
           <div className="form-group" >
@@ -214,15 +218,14 @@ const calculateTotal = () => {
             <br></br>
   <label className="col-form-label">Type de consultation:</label>
   <div>
-    <br></br>
-    <label className="radio-label" style={{ marginRight: '30px' }}>
-      <input type="radio" name="type" value="Cabinet"  onChange={(e) => setAdd({ ...add, type: e.target.value })} />
-      Cabinet
-    </label>
-    <label className="radio-label">
-      <input type="radio" name="type" value="Domicile" onChange={(e) => setAdd({ ...add, type: e.target.value })} />
-      Domicile
-    </label>
+  <label className="radio-label" style={{ marginRight: '30px' }}>
+  <input type="radio" name="type" value="Cabinet" onChange={(e) => setAdd({ ...add, type: e.target.value })} />
+  Cabinet
+</label>
+<label className="radio-label">
+  <input type="radio" name="type" value="Domicile" onChange={(e) => setAdd({ ...add, type: e.target.value })} />
+  Domicile
+</label>
   </div>
 </div>
 <br></br>
@@ -286,10 +289,12 @@ const calculateTotal = () => {
 
   <br></br> 
   <br></br>
+  
+  <div>
+  <Button variant="contained" style={{marginLeft:"76%", backgroundColor:"#C2C3C3"}}  >Annuler</Button>
+  <Button variant="contained" style={{marginLeft:"3%", backgroundColor:"#1BDA86"}} type="submit" >Ajouter</Button>
 
-
-  <Button variant="contained" style={{marginLeft:"90%", backgroundColor:"#1BDA86"}} type="submit" >Ajouter</Button>
-
+  </div>
 
            </form>
 
@@ -302,3 +307,19 @@ const calculateTotal = () => {
 };
 
 export default CreateConsultation;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

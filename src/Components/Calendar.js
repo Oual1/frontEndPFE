@@ -1,31 +1,35 @@
-import { useState } from "react";
-import FullCalendar, {formatDate}  from "@fullcalendar/react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  useTheme,
-} from "@mui/material";
-
-
+import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import Topbar from "./global/Topbar";
 
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [currentEvents, setCurrentEvents] = useState([]);
+  const [events, setEvents] = useState([]);
 
-
+  useEffect(() => {
+    // Appel à l'API pour récupérer les événements depuis le backend
+    axios.get("http://localhost:8080/invoices/consultations")
+      .then(response => {
+        const formattedEvents = response.data.map(event => ({
+          id: event.id,
+          title: event.patient.firstName+event.patient.lastName,
+          date: event.date, // Assurez-vous que le format de la date est valide ici (par exemple, "2023-07-19T15:30:00")
+        }));
+        console.log(response.data)
+        setEvents(formattedEvents);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
   
-  
-
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");
     const calendarApi = selected.view.calendar;
@@ -43,21 +47,16 @@ const Calendar = () => {
   };
 
   const handleEventClick = (selected) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete the event '${selected.event.title}'`
-      )
-    ) {
-      selected.event.remove();
-    }
+    const selectedDate = selected.event.start.toISOString(); // Convert to ISO string format
+    const selectedId = selected.event.id
+  // Store the selected date in localStorage
+  localStorage.setItem('selectedId', selectedId);
+
+    window.location.href = '/add-consultation';
   };
 
   return (
     <div>
-      
-    <div>
-      
-
       <Box display="flex" justifyContent="space-between">
         {/* CALENDAR SIDEBAR */}
         <Box
@@ -67,31 +66,6 @@ const Calendar = () => {
           borderRadius="4px"
         >
           <Typography variant="h5">Events</Typography>
-          <List>
-            {currentEvents.map((event) => (
-              <ListItem
-                key={event.id}
-                sx={{
-                  backgroundColor: colors.greenAccent[700],
-                  margin: "10px 0",
-                  borderRadius: "2px",
-                }}
-              >
-                <ListItemText
-                  primary={event.title}
-                  secondary={
-                    <Typography>
-                      {new Intl.DateTimeFormat("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      }).format(new Date(event.start))}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
-          </List>
         </Box>
 
         {/* CALENDAR */}
@@ -108,7 +82,6 @@ const Calendar = () => {
               left: "prev,next today",
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-              
             }}
             initialView="dayGridMonth"
             editable={true}
@@ -117,23 +90,10 @@ const Calendar = () => {
             dayMaxEvents={true}
             select={handleDateClick}
             eventClick={handleEventClick}
-            eventsSet={(events) => setCurrentEvents(events)}
-            initialEvents={[
-              {
-                id: "12315",
-                title: "All-day event",
-                date: "2022-09-14",
-              },
-              {
-                id: "5123",
-                title: "Timed event",
-                date: "2022-09-28",
-              },
-            ]}
+            events={events} // Utilisez directement le tableau d'événements formatés ici
           />
         </Box>
       </Box>
-    </div>
     </div>
   );
 };

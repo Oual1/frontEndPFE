@@ -34,7 +34,7 @@ function SecFooter() {
     
     <Box sx={{ display: 'flex'}}>
       
-      <ChatIcon titleAccess='chat' style={{marginLeft:"97%"}} onClick={handleChatClick}></ChatIcon>
+
         <hr style={{ borderTop: '1px solid', backgroundColor :"#2AC78C"}} />
         <AppBar style={{backgroundColor:"#2AC78C", bottom:'0', marginTop:"713px"}}>
       
